@@ -47,8 +47,8 @@ android {
         applicationId = "io.github.gabrieldave.nexo"
         minSdk = 24
         targetSdk = 35
-        versionCode = 100_000_110
-        check(versionCode == currentVersionCode)
+        // Nexo: la versión se define en un solo lugar (buildSrc/src/main/kotlin/Version.kt).
+        versionCode = currentVersionCode
 
         versionName = baseVersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

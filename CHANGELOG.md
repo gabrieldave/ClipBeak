@@ -15,6 +15,9 @@ Primera versión de Nexo, un fork de Seal 2.0.0-alpha.5 (commit 7677f61).
 - Soporte para plegables: dos paneles, respeto de la bisagra y postura mesa.
 - Color índigo de Nexo por defecto y tipografía Outfit en títulos.
 
+- Ajustes, Historial y Comandos con el mismo estilo del inicio.
+- Compilación automática en GitHub (también en forks) y releases firmadas al crear una etiqueta.
+
 Detalle completo: ver NOTICE.md.
 
 ---

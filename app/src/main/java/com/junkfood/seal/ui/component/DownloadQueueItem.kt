@@ -97,7 +97,7 @@ fun PlaylistItem(
             ) {
                 AsyncImageImpl(
                     modifier =
-                        Modifier.clip(MaterialTheme.shapes.extraSmall)
+                        Modifier.clip(MaterialTheme.shapes.medium)
                             .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
                     model = imageModel,
                     contentDescription = null,

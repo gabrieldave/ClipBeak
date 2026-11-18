@@ -1,0 +1,92 @@
+# Nexo: publica una release firmada al subir una etiqueta "v*" (por ejemplo v1.0.0-alpha.1).
+#
+# Necesita estos secretos en Settings > Secrets and variables > Actions:
+#   KEYSTORE_BASE64     el archivo .jks codificado en base64
+#   KEYSTORE_PASSWORD   contraseña del almacén
+#   KEY_ALIAS           alias de la llave
+#   KEY_PASSWORD        contraseña de la llave
+#
+# En un fork sin esos secretos, el workflow no falla: avisa y se detiene sin publicar nada.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      HAS_KEYSTORE: ${{ secrets.KEYSTORE_BASE64 != '' }}
+    steps:
+      - name: Aviso para forks sin llave
+        if: env.HAS_KEYSTORE != 'true'
+        run: |
+          echo "::notice::No hay llave de firma configurada (normal en forks). Usa el workflow Build para APKs de prueba."
+
+      - uses: actions/checkout@v4
+        if: env.HAS_KEYSTORE == 'true'
+
+      - name: Instalar JDK 21
+        if: env.HAS_KEYSTORE == 'true'
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+
+      - name: Instalar Android SDK
+        if: env.HAS_KEYSTORE == 'true'
+        uses: android-actions/setup-android@v3
+
+      - uses: gradle/actions/setup-gradle@v4
+        if: env.HAS_KEYSTORE == 'true'
+
+      - name: Preparar llave de firma (solo en el runner, nunca en el repo)
+        if: env.HAS_KEYSTORE == 'true'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/nexo.jks"
+          {
+            echo "storeFile=$RUNNER_TEMP/nexo.jks"
+            echo "storePassword=$KEYSTORE_PASSWORD"
+            echo "keyAlias=$KEY_ALIAS"
+            echo "keyPassword=$KEY_PASSWORD"
+          } > keystore.properties
+
+      - name: Compilar APKs firmados
+        if: env.HAS_KEYSTORE == 'true'
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleGenericRelease
+
+      - name: Verificar firma
+        if: env.HAS_KEYSTORE == 'true'
+        run: |
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
+          for apk in app/build/outputs/apk/generic/release/*.apk; do
+            "$APKSIGNER" verify --print-certs "$apk" | head -3
+          done
+
+      - name: Borrar la llave del runner
+        if: always() && env.HAS_KEYSTORE == 'true'
+        run: rm -f "$RUNNER_TEMP/nexo.jks" keystore.properties
+
+      - name: Publicar release
+        if: env.HAS_KEYSTORE == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: app/build/outputs/apk/generic/release/*.apk
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+          body: |
+            **Nexo** es un fork de [Seal](https://github.com/JunkFood02/Seal) de JunkFood02, con licencia GPLv3.
+            El código fuente de esta versión está en este repositorio, en la etiqueta `${{ github.ref_name }}`, y también en los archivos "Source code" de abajo.
+            Para la mayoría de los teléfonos descarga el APK **arm64-v8a**.

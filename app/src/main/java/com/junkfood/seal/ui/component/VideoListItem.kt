@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.Checkbox
@@ -80,9 +82,15 @@ fun MediaListItem(
     val isFileAvailable = videoFileSize != 0L
     val fileSizeText = videoFileSize.toFileSizeText()
 
+    // Nexo: cada elemento del historial es una tarjeta redondeada, como en el inicio y en Ajustes.
     Box(
         modifier =
-            with(modifier) {
+            with(
+                    modifier
+                        .padding(horizontal = 12.dp, vertical = 3.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                ) {
                     if (!isSelectEnabled())
                         combinedClickable(
                             enabled = true,
@@ -172,7 +180,7 @@ fun MediaImage(
             modifier
                 .height(90.dp)
                 .aspectRatio(if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = true)
-                .clip(MaterialTheme.shapes.extraSmall),
+                .clip(MaterialTheme.shapes.medium),
         model = imageModel,
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,

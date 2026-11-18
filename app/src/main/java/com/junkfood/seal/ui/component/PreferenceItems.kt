@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,6 +20,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Info
@@ -73,6 +76,43 @@ private val PreferenceTitleVariant: TextStyle
 private val PreferenceTitle
     @Composable get() = MaterialTheme.typography.titleMedium
 
+/** Nexo: forma de las filas de ajustes (tarjetas redondeadas, estilo Material 3 Expressive). */
+private val NexoTileShape = RoundedCornerShape(20.dp)
+
+private fun Modifier.nexoTile(): Modifier =
+    this.padding(horizontal = 16.dp, vertical = 2.dp).clip(NexoTileShape)
+
+private val NexoTileColor: Color
+    @Composable get() = MaterialTheme.colorScheme.surfaceContainer
+
+/** Nexo: icono dentro de un círculo tonal, como en la barra superior del inicio. */
+@Composable
+fun NexoIconBadge(
+    icon: Any?,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    containerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    contentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
+) {
+    if (icon !is ImageVector && icon !is Painter) return
+    Box(
+        modifier =
+            modifier
+                .padding(end = 16.dp)
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(containerColor.applyOpacity(enabled)),
+        contentAlignment = Alignment.Center,
+    ) {
+        when (icon) {
+            is ImageVector ->
+                Icon(icon, null, Modifier.size(22.dp), tint = contentColor.applyOpacity(enabled))
+            is Painter ->
+                Icon(icon, null, Modifier.size(22.dp), tint = contentColor.applyOpacity(enabled))
+        }
+    }
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PreferenceItem(
@@ -88,14 +128,16 @@ fun PreferenceItem(
     onClick: () -> Unit = {},
 ) {
     Surface(
+        color = NexoTileColor,
         modifier =
-            Modifier.combinedClickable(
-                onClick = onClick,
-                onClickLabel = onClickLabel,
-                enabled = enabled,
-                onLongClickLabel = onLongClickLabel,
-                onLongClick = onLongClick,
-            )
+            Modifier.nexoTile()
+                .combinedClickable(
+                    onClick = onClick,
+                    onClickLabel = onClickLabel,
+                    enabled = enabled,
+                    onLongClickLabel = onLongClickLabel,
+                    onLongClick = onLongClick,
+                ),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal.dp, vertical.dp),
@@ -105,20 +147,18 @@ fun PreferenceItem(
 
             when (icon) {
                 is ImageVector -> {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        modifier = Modifier.padding(start = 8.dp, end = 16.dp).size(24.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                    NexoIconBadge(
+                        icon = icon,
+                        enabled = enabled,
+                        modifier = Modifier.padding(start = 4.dp),
                     )
                 }
 
                 is Painter -> {
-                    Icon(
-                        painter = icon,
-                        contentDescription = null,
-                        modifier = Modifier.padding(start = 8.dp, end = 16.dp).size(24.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                    NexoIconBadge(
+                        icon = icon,
+                        enabled = enabled,
+                        modifier = Modifier.padding(start = 4.dp),
                     )
                 }
             }
@@ -187,25 +227,26 @@ fun PreferenceItemVariant(
     onClick: () -> Unit = {},
 ) {
     Surface(
+        color = NexoTileColor,
         modifier =
-            Modifier.combinedClickable(
-                enabled = enabled,
-                onClick = onClick,
-                onClickLabel = onClickLabel,
-                onLongClick = onLongClick,
-                onLongClickLabel = onLongClickLabel,
-            )
+            Modifier.nexoTile()
+                .combinedClickable(
+                    enabled = enabled,
+                    onClick = onClick,
+                    onClickLabel = onClickLabel,
+                    onLongClick = onLongClick,
+                    onLongClickLabel = onLongClickLabel,
+                ),
     ) {
         Row(
             modifier = modifier.fillMaxWidth().padding(12.dp, 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    modifier = Modifier.padding(start = 8.dp, end = 16.dp).size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                NexoIconBadge(
+                    icon = icon,
+                    enabled = enabled,
+                    modifier = Modifier.padding(start = 4.dp),
                 )
             }
             Column(
@@ -231,7 +272,10 @@ fun PreferenceSingleChoiceItem(
     contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
     onClick: () -> Unit,
 ) {
-    Surface(modifier = Modifier.selectable(selected = selected, onClick = onClick)) {
+    Surface(
+        color = NexoTileColor,
+        modifier = Modifier.nexoTile().selectable(selected = selected, onClick = onClick),
+    ) {
         Row(
             modifier = modifier.fillMaxWidth().padding(contentPadding),
             verticalAlignment = Alignment.CenterVertically,
@@ -352,14 +396,16 @@ fun PreferenceSwitchVariant(
 
     val interactionSource = remember { MutableInteractionSource() }
     Surface(
+        color = NexoTileColor,
         modifier =
-            Modifier.toggleable(
-                value = isChecked,
-                enabled = enabled,
-                onValueChange = { onClick() },
-                indication = LocalIndication.current,
-                interactionSource = interactionSource,
-            )
+            Modifier.nexoTile()
+                .toggleable(
+                    value = isChecked,
+                    enabled = enabled,
+                    onValueChange = { onClick() },
+                    indication = LocalIndication.current,
+                    interactionSource = interactionSource,
+                ),
     ) {
         Row(
             modifier =
@@ -369,11 +415,10 @@ fun PreferenceSwitchVariant(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    modifier = Modifier.padding(start = 8.dp, end = 16.dp).size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                NexoIconBadge(
+                    icon = icon,
+                    enabled = enabled,
+                    modifier = Modifier.padding(start = 4.dp),
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
@@ -406,14 +451,16 @@ fun PreferenceSwitch(
 
     val interactionSource = remember { MutableInteractionSource() }
     Surface(
+        color = NexoTileColor,
         modifier =
-            Modifier.toggleable(
-                value = isChecked,
-                enabled = enabled,
-                onValueChange = { onClick() },
-                indication = LocalIndication.current,
-                interactionSource = interactionSource,
-            )
+            Modifier.nexoTile()
+                .toggleable(
+                    value = isChecked,
+                    enabled = enabled,
+                    onValueChange = { onClick() },
+                    indication = LocalIndication.current,
+                    interactionSource = interactionSource,
+                ),
     ) {
         Row(
             modifier =
@@ -423,11 +470,10 @@ fun PreferenceSwitch(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    modifier = Modifier.padding(start = 8.dp, end = 16.dp).size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                NexoIconBadge(
+                    icon = icon,
+                    enabled = enabled,
+                    modifier = Modifier.padding(start = 4.dp),
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
@@ -461,12 +507,14 @@ fun PreferenceSwitchWithDivider(
 ) {
 
     Surface(
+        color = NexoTileColor,
         modifier =
-            Modifier.clickable(
-                enabled = enabled,
-                onClick = onClick,
-                onClickLabel = stringResource(id = R.string.open_settings),
-            )
+            Modifier.nexoTile()
+                .clickable(
+                    enabled = enabled,
+                    onClick = onClick,
+                    onClickLabel = stringResource(id = R.string.open_settings),
+                ),
     ) {
         Row(
             modifier =
@@ -476,11 +524,10 @@ fun PreferenceSwitchWithDivider(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    modifier = Modifier.padding(start = 8.dp, end = 16.dp).size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                NexoIconBadge(
+                    icon = icon,
+                    enabled = enabled,
+                    modifier = Modifier.padding(start = 4.dp),
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
@@ -699,7 +746,7 @@ fun CreditItem(
     enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
-    Surface(modifier = Modifier.clickable { onClick() }) {
+    Surface(color = NexoTileColor, modifier = Modifier.nexoTile().clickable { onClick() }) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -742,8 +789,9 @@ fun TemplateItem(
     onLongClick: () -> Unit = {},
 ) {
     Surface(
+        color = NexoTileColor,
         modifier =
-            Modifier.run {
+            Modifier.nexoTile().run {
                 if (!isMultiSelectEnabled)
                     then(
                         this.combinedClickable(
@@ -756,7 +804,7 @@ fun TemplateItem(
                 else {
                     then(this.toggleable(value = checked, onValueChange = onCheckedChange))
                 }
-            }
+            },
     ) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(16.dp, 16.dp),
@@ -815,7 +863,8 @@ fun TemplateItem(
 fun PreferenceSubtitle(
     text: String,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(start = 16.dp, top = 20.dp, bottom = 8.dp),
+    // Nexo: alineado con el contenido de las tarjetas de ajustes.
+    contentPadding: PaddingValues = PaddingValues(start = 32.dp, top = 24.dp, bottom = 8.dp),
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Text(

@@ -17,3 +17,7 @@
 local.properties
 /keystore.properties
 .kotlin
+# Nexo: llaves de firma (nunca subirlas)
+*.jks
+*.keystore
+keystore.properties

@@ -50,6 +50,15 @@ Los nombres internos del código (por ejemplo el paquete Kotlin `com.junkfood.se
 - Tipografía de marca Outfit para títulos (ver "Componentes de terceros").
 - Créditos de la app: se agregaron Seal y la fuente Outfit.
 
+### Estilo unificado y preparación para publicar (18 de noviembre de 2026, tercera entrega)
+- Ajustes y todas sus subpantallas: filas como tarjetas redondeadas con iconos en círculos tonales (`ui/component/PreferenceItems.kt`, `ui/component/SettingItem.kt`); subtítulos alineados con las tarjetas.
+- Historial: elementos como tarjetas y miniaturas redondeadas (`ui/component/VideoListItem.kt`).
+- Comandos: encabezado grande y botón flotante mediano (`ui/page/command/TaskListPage.kt`).
+- `versionCode` calculado directamente desde `Version.kt` (antes estaba duplicado a mano).
+- Workflows nuevos: `build.yml` (compila en cada push y PR, también en forks, sin secretos) y `release.yml` (firma y publica al subir una etiqueta `v*`; en forks sin llave se detiene sin fallar). Se eliminaron los workflows de Seal (`android.yml`, `android_ci.yml`, `Issue-Handler.yaml`), que dependían de sus secretos y de su tracker de issues.
+- `.gitignore` excluye llaves (`*.jks`, `*.keystore`, `keystore.properties`).
+- README con guía paso a paso para la comunidad, CONTRIBUTING propio y capturas de Nexo en `docs/screenshots/` y en fastlane.
+
 ## Componentes de terceros agregados por Nexo
 
 - **Outfit**, de The Outfit Project Authors (https://github.com/Outfitio/Outfit-Fonts), con licencia SIL Open Font License 1.1. Archivos: `app/src/main/res/font/outfit_*.ttf`. El texto de la licencia acompaña a la app en `app/src/main/assets/licenses/OFL-Outfit.txt`. La OFL permite incluir la fuente en software con cualquier licencia, siempre que la fuente no se venda por separado.
