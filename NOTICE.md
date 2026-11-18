@@ -59,6 +59,9 @@ Los nombres internos del código (por ejemplo el paquete Kotlin `com.junkfood.se
 - `.gitignore` excluye llaves (`*.jks`, `*.keystore`, `keystore.properties`).
 - README con guía paso a paso para la comunidad, CONTRIBUTING propio y capturas de Nexo en `docs/screenshots/` y en fastlane.
 
+### CI: Android SDK en Actions (18 de noviembre de 2026)
+- `build.yml` y `release.yml`: `android-actions/setup-android` actualizado de `@v3` a `@v4`, porque la v3 intenta instalar el paquete obsoleto `tools` del SDK y el workflow Build fallaba.
+
 ## Componentes de terceros agregados por Nexo
 
 - **Outfit**, de The Outfit Project Authors (https://github.com/Outfitio/Outfit-Fonts), con licencia SIL Open Font License 1.1. Archivos: `app/src/main/res/font/outfit_*.ttf`. El texto de la licencia acompaña a la app en `app/src/main/assets/licenses/OFL-Outfit.txt`. La OFL permite incluir la fuente en software con cualquier licencia, siempre que la fuente no se venda por separado.
