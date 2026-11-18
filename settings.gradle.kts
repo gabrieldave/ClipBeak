@@ -16,6 +16,6 @@ dependencyResolutionManagement {
         mavenLocal()
     }
 }
-rootProject.name = "Seal"
+rootProject.name = "Nexo"
 include (":app")
 include(":color")

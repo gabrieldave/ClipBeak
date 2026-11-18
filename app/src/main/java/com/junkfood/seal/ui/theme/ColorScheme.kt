@@ -156,7 +156,7 @@ data class FixedColorRoles(
     }
 }
 
-const val DEFAULT_SEED_COLOR = 0xa3d48d
+const val DEFAULT_SEED_COLOR = 0x3B3FD1 // Nexo: índigo de marca (Seal usaba 0xa3d48d)
 
 /**
  * @return a [Color] generated using [Hct] algorithm, harmonized with `primary` color

@@ -28,7 +28,6 @@ import androidx.compose.material.icons.rounded.SignalWifi4Bar
 import androidx.compose.material.icons.rounded.Terminal
 import androidx.compose.material.icons.rounded.VideoFile
 import androidx.compose.material.icons.rounded.ViewComfy
-import androidx.compose.material.icons.rounded.VolunteerActivism
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -144,16 +143,7 @@ fun SettingsPage(onNavigateBack: () -> Unit, onNavigateTo: (String) -> Unit) {
                     }
                 }
             }
-            if (!showBatteryHint && showSponsorMessage > 30)
-                item {
-                    PreferencesHintCard(
-                        title = stringResource(id = R.string.sponsor),
-                        icon = Icons.Rounded.VolunteerActivism,
-                        description = stringResource(id = R.string.sponsor_desc),
-                    ) {
-                        onNavigateTo(Route.DONATE)
-                    }
-                }
+            // Nexo: se quitó la tarjeta recurrente de patrocinio de Seal (ver Acerca de).
             item {
                 SettingItem(
                     title = stringResource(id = R.string.general_settings),

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3ExpressiveApi::class)
+
 package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.Intent
@@ -39,13 +41,14 @@ import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumFloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -106,10 +109,10 @@ import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SelectionGroupDefaults
 import com.junkfood.seal.ui.component.SelectionGroupItem
 import com.junkfood.seal.ui.component.SelectionGroupRow
-import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.page.downloadv2.configure.Config
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialog
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
+import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.page.downloadv2.configure.FormatPage
 import com.junkfood.seal.ui.page.downloadv2.configure.PlaylistSelectionPage
 import com.junkfood.seal.ui.page.downloadv2.configure.PreferencesMock
@@ -586,7 +589,8 @@ private fun HeaderExpanded(modifier: Modifier = Modifier) {
 fun FABs(modifier: Modifier = Modifier, downloadCallback: () -> Unit = {}) {
     val expanded = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
     Column(modifier = modifier.padding(6.dp), horizontalAlignment = Alignment.End) {
-        FloatingActionButton(
+        // Nexo: botón flotante mediano (Material 3 Expressive), más fácil de alcanzar.
+        MediumFloatingActionButton(
             onClick = downloadCallback,
             content = {
                 if (expanded) {
@@ -602,6 +606,7 @@ fun FABs(modifier: Modifier = Modifier, downloadCallback: () -> Unit = {}) {
                     Icon(
                         Icons.Outlined.FileDownload,
                         contentDescription = stringResource(R.string.download),
+                        modifier = Modifier.size(28.dp),
                     )
                 }
             },

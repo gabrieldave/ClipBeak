@@ -1,5 +1,21 @@
 # Changelog
 
+## Nexo
+
+### [1.0.0-alpha.1] - 2026-11-18
+Primera versión de Nexo, un fork de Seal 2.0.0-alpha.5 (commit 7677f61).
+
+- Nueva identidad: nombre, icono, paquete `io.github.gabrieldave.nexo` y paleta índigo.
+- Interfaz Material 3 Expressive: movimiento con resortes, formas más redondeadas, indicador de carga que cambia de forma, progreso ondulado y botón de descarga más grande.
+- "Reintentar" ahora se traduce.
+- Avisos de licencia GPLv3 y créditos a Seal en la pantalla "Acerca de".
+
+Detalle completo: ver NOTICE.md.
+
+---
+
+## Seal (historial del proyecto original)
+
 All notable changes (starting from v1.7.3) to stable releases will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3ExpressiveApi::class)
+
 package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.res.Configuration
@@ -34,6 +36,8 @@ import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -648,11 +652,11 @@ private fun ProgressButton(modifier: Modifier = Modifier, progress: Float, onCli
                 trackColor = Color.Transparent,
             )
         } else {
-            CircularProgressIndicator(
-                { animatedProgress },
+            // Nexo: progreso ondulado (Material 3 Expressive) mientras la descarga avanza.
+            CircularWavyProgressIndicator(
+                progress = { animatedProgress },
                 modifier = Modifier.size(IconButtonSize).align(Alignment.Center),
                 color = ActionButtonContentColor,
-                gapSize = 0.dp,
                 trackColor = Color.Transparent,
             )
         }

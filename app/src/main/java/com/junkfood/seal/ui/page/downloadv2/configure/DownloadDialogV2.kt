@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3ExpressiveApi::class)
+
 package com.junkfood.seal.ui.page.downloadv2.configure
 
 import androidx.activity.compose.BackHandler
@@ -52,11 +54,12 @@ import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SheetState
@@ -314,7 +317,9 @@ private fun ErrorPage(modifier: Modifier = Modifier, state: Error, onActionPost:
         )
 
         Row(modifier = Modifier) {
-            FilledTonalButton(onClick = { onActionPost(state.action) }) { Text("Retry") }
+            FilledTonalButton(onClick = { onActionPost(state.action) }) {
+                Text(stringResource(R.string.retry))
+            }
             Spacer(Modifier.width(8.dp))
             Button(
                 onClick = {
@@ -402,8 +407,9 @@ private fun DownloadDialogContent(
 
             is Loading -> {
                 Column(modifier = Modifier.fillMaxWidth().padding(vertical = 120.dp)) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    // Nexo: indicador expresivo que cambia de forma mientras carga.
+                    LoadingIndicator(
+                        modifier = Modifier.align(Alignment.CenterHorizontally).size(64.dp)
                     )
                 }
             }

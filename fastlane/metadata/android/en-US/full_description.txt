@@ -7,4 +7,4 @@ Embed subtitles into downloaded videos
 Execute custom yt-dlp commands with templates
 Manage in-app downloads and custom command templates
 Easy to use and user-friendly
-Material Design 3 style UI, with dynamic color theme
+Material 3 Expressive UI, with dynamic color theme

@@ -1,3 +1,5 @@
+> **Nota de Nexo:** este archivo viene del proyecto original Seal. Para Nexo, abre los issues y PR en https://github.com/gabrieldave/Nexo. Los errores de yt-dlp o del núcleo de Seal conviene reportarlos también en el repositorio original.
+
 # Contributing
 
 Before reading, you may know what [yt-dlp](https://github.com/yt-dlp/yt-dlp) is and what it does. In short, it's a CLI (Command Line Interface) program written in python, which lets you download videos from [1000+ websites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md).

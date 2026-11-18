@@ -5,6 +5,7 @@ package com.junkfood.seal.ui.theme
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextDirection
 
@@ -14,13 +15,17 @@ val Typography =
             bodyLarge = bodyLarge.applyLinebreak().applyTextDirection(),
             bodyMedium = bodyMedium.applyLinebreak().applyTextDirection(),
             bodySmall = bodySmall.applyLinebreak().applyTextDirection(),
-            titleLarge = titleLarge.applyTextDirection(),
+            // Nexo: títulos enfatizados (Material 3 Expressive).
+            titleLarge = titleLarge.copy(fontWeight = FontWeight.SemiBold).applyTextDirection(),
             titleMedium = titleMedium.applyTextDirection(),
             titleSmall = titleSmall.applyTextDirection(),
-            headlineSmall = headlineSmall.applyTextDirection(),
-            headlineMedium = headlineMedium.applyTextDirection(),
-            headlineLarge = headlineLarge.applyTextDirection(),
-            displaySmall = displaySmall.applyTextDirection(),
+            headlineSmall =
+                headlineSmall.copy(fontWeight = FontWeight.SemiBold).applyTextDirection(),
+            headlineMedium =
+                headlineMedium.copy(fontWeight = FontWeight.SemiBold).applyTextDirection(),
+            headlineLarge =
+                headlineLarge.copy(fontWeight = FontWeight.SemiBold).applyTextDirection(),
+            displaySmall = displaySmall.copy(fontWeight = FontWeight.Medium).applyTextDirection(),
             displayMedium = displayMedium.applyTextDirection(),
             displayLarge = displayLarge.applyTextDirection(),
             labelLarge = labelLarge.applyTextDirection(),

@@ -3,10 +3,14 @@ package com.junkfood.seal.ui.page.settings.about
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Gavel
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Update
@@ -33,7 +37,6 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -54,13 +57,14 @@ import com.junkfood.seal.util.AUTO_UPDATE
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.ToastUtil
 
-private const val releaseURL = "https://github.com/JunkFood02/Seal/releases"
-private const val repoUrl = "https://github.com/JunkFood02/Seal"
+// Nexo: enlaces propios del fork. El proyecto original es Seal (JunkFood02, GPLv3).
+private const val releaseURL = "https://github.com/gabrieldave/Nexo/releases"
+private const val repoUrl = "https://github.com/gabrieldave/Nexo"
+private const val upstreamRepoUrl = "https://github.com/JunkFood02/Seal"
+private const val licenseUrl = "https://www.gnu.org/licenses/gpl-3.0.html"
 const val weblate = "https://hosted.weblate.org/engage/seal/"
 const val YtdlpRepository = "https://github.com/yt-dlp/yt-dlp"
-private const val githubIssueUrl = "https://github.com/JunkFood02/Seal/issues"
-private const val telegramChannelUrl = "https://t.me/seal_app"
-private const val matrixSpaceUrl = "https://matrix.to/#/#seal-space:matrix.org"
+private const val githubIssueUrl = "https://github.com/gabrieldave/Nexo/issues"
 private const val githubSponsor = "https://github.com/sponsors/JunkFood02"
 private const val TAG = "AboutPage"
 
@@ -84,6 +88,7 @@ fun AboutPage(
     //    val screenHeight = (configuration.screenHeightDp.toFloat() * screenDensity).roundToInt()
     //    val screenWidth = (configuration.screenWidthDp.toFloat() * screenDensity).roundToInt()
     var isAutoUpdateEnabled by remember { mutableStateOf(PreferenceUtil.isAutoUpdateEnabled()) }
+    var showLicenseDialog by remember { mutableStateOf(false) }
 
     val info = App.getVersionReport()
     val versionName = packageInfo.versionName
@@ -137,30 +142,29 @@ fun AboutPage(
                 }*/
                 item {
                     PreferenceItem(
-                        title = stringResource(id = R.string.sponsor),
-                        description = stringResource(id = R.string.sponsor_desc),
+                        title = stringResource(id = R.string.based_on_seal),
+                        description = stringResource(id = R.string.based_on_seal_desc),
                         icon = Icons.Outlined.VolunteerActivism,
                     ) {
-                        //                    openUrl(githubSponsor)
-                        onNavigateToDonatePage()
+                        openUrl(upstreamRepoUrl)
                     }
                 }
                 item {
                     PreferenceItem(
-                        title = stringResource(R.string.telegram_channel),
-                        description = telegramChannelUrl,
-                        icon = painterResource(id = R.drawable.icons8_telegram_app),
+                        title = stringResource(id = R.string.support_upstream),
+                        description = stringResource(id = R.string.support_upstream_desc),
+                        icon = Icons.Outlined.Favorite,
                     ) {
-                        openUrl(telegramChannelUrl)
+                        openUrl(githubSponsor)
                     }
                 }
                 item {
                     PreferenceItem(
-                        title = stringResource(R.string.matrix_space),
-                        description = matrixSpaceUrl,
-                        icon = painterResource(id = R.drawable.icons8_matrix),
+                        title = stringResource(id = R.string.license_notice),
+                        description = stringResource(id = R.string.license_notice_desc),
+                        icon = Icons.Outlined.Gavel,
                     ) {
-                        openUrl(matrixSpaceUrl)
+                        showLicenseDialog = true
                     }
                 }
                 item {
@@ -207,6 +211,39 @@ fun AboutPage(
             }
         },
     )
+    if (showLicenseDialog) {
+        LicenseNoticeDialog(
+            onOpenLicense = { openUrl(licenseUrl) },
+            onDismissRequest = { showLicenseDialog = false },
+        )
+    }
+}
+
+/**
+ * Avisos legales apropiados (GPLv3, sección 0 y 5d): copyright, ausencia de garantía y cómo ver la
+ * licencia.
+ */
+@Composable
+fun LicenseNoticeDialog(onOpenLicense: () -> Unit = {}, onDismissRequest: () -> Unit = {}) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        icon = { Icon(Icons.Outlined.Gavel, null) },
+        title = { Text(stringResource(R.string.license_notice), textAlign = TextAlign.Center) },
+        text = {
+            Text(
+                stringResource(R.string.license_notice_text),
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+            )
+        },
+        confirmButton = {
+            ConfirmButton(stringResource(id = R.string.got_it)) { onDismissRequest() }
+        },
+        dismissButton = {
+            androidx.compose.material3.TextButton(onClick = onOpenLicense) {
+                Text(stringResource(R.string.license_read_full))
+            }
+        },
+    )
 }
 
 @OptIn(ExperimentalTextApi::class)
@@ -223,7 +260,7 @@ fun AutoUpdateUnavailableDialog(onDismissRequest: () -> Unit = {}) {
         val startIndex = text.indexOf(hyperLinkText)
         val endIndex = startIndex + hyperLinkText.length
         addUrlAnnotation(
-            UrlAnnotation("https://github.com/JunkFood02/Seal/releases/latest"),
+            UrlAnnotation("https://github.com/gabrieldave/Nexo/releases/latest"),
             start = startIndex,
             end = endIndex,
         )
