@@ -10,6 +10,11 @@ Primera versión de Nexo, un fork de Seal 2.0.0-alpha.5 (commit 7677f61).
 - "Reintentar" ahora se traduce.
 - Avisos de licencia GPLv3 y créditos a Seal en la pantalla "Acerca de".
 
+- Inicio nuevo con campo para pegar enlaces y descargar en un toque.
+- Navegación adaptable: barra inferior en teléfonos y riel lateral en pantallas anchas.
+- Soporte para plegables: dos paneles, respeto de la bisagra y postura mesa.
+- Color índigo de Nexo por defecto y tipografía Outfit en títulos.
+
 Detalle completo: ver NOTICE.md.
 
 ---

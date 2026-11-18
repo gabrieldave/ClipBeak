@@ -1,14 +1,24 @@
 package com.junkfood.seal.ui.page
 
 import android.webkit.CookieManager
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DrawerValue
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -21,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -43,8 +52,8 @@ import com.junkfood.seal.ui.common.id
 import com.junkfood.seal.ui.common.slideInVerticallyComposable
 import com.junkfood.seal.ui.page.command.TaskListPage
 import com.junkfood.seal.ui.page.command.TaskLogPage
-import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.downloadv2.DownloadPageV2
+import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.about.CreditsPage
@@ -66,7 +75,6 @@ import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
 import com.junkfood.seal.ui.page.settings.network.WebViewPage
 import com.junkfood.seal.ui.page.settings.troubleshooting.TroubleShootingPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 private const val TAG = "HomeEntry"
@@ -84,7 +92,6 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
     val sheetState by dialogViewModel.sheetStateFlow.collectAsStateWithLifecycle()
     val cookiesViewModel: CookiesViewModel = koinViewModel()
 
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val versionReport = App.packageInfo.versionName.toString()
     val appName = stringResource(R.string.app_name)
     val scope = rememberCoroutineScope()
@@ -112,74 +119,98 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        NavigationDrawer(
-            windowWidth = windowWidth,
-            drawerState = drawerState,
-            currentRoute = currentRoute,
-            currentTopDestination = currentTopDestination,
-            showQuickSettings = true,
-            gesturesEnabled = currentRoute == Route.HOME,
-            onDismissRequest = { drawerState.close() },
-            onNavigateToRoute = {
-                if (currentRoute != it) {
-                    navController.navigate(it) {
-                        launchSingleTop = true
-                        popUpTo(route = Route.HOME)
-                    }
-                }
-            },
-            footer = {
-                Text(
-                    appName + "\n" + versionReport + "\n" + currentRoute,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(start = 12.dp),
-                )
-            },
-        ) {
-            NavHost(
-                modifier = Modifier.align(Alignment.Center),
-                navController = navController,
-                startDestination = Route.HOME,
-            ) {
-                animatedComposable(Route.HOME) {
-                    DownloadPageV2(
-                        dialogViewModel = dialogViewModel,
-                        onMenuOpen = {
-                            view.slightHapticFeedback()
-                            scope.launch { drawerState.open() }
-                        },
-                    )
-                }
-                animatedComposable(Route.DOWNLOADS) { VideoListPage { onNavigateBack() } }
-                animatedComposableVariant(Route.TASK_LIST) {
-                    TaskListPage(
-                        onNavigateBack = onNavigateBack,
-                        onNavigateToDetail = { navController.navigate(Route.TASK_LOG id it) },
-                    )
-                }
-                slideInVerticallyComposable(
-                    Route.TASK_LOG arg Route.TASK_HASHCODE,
-                    arguments = listOf(navArgument(Route.TASK_HASHCODE) { type = NavType.IntType }),
-                ) {
-                    TaskLogPage(
-                        onNavigateBack = onNavigateBack,
-                        taskHashCode = it.arguments?.getInt(Route.TASK_HASHCODE) ?: -1,
-                    )
-                }
-
-                settingsGraph(
-                    onNavigateBack = onNavigateBack,
-                    onNavigateTo = { route ->
-                        navController.navigate(route = route) { launchSingleTop = true }
-                    },
-                    cookiesViewModel = cookiesViewModel,
-                )
+    // Nexo: navegación adaptable. Barra inferior en teléfonos; riel lateral en plegables abiertos,
+    // tablets y teléfonos en horizontal. Sustituye al menú lateral de Seal.
+    val useRail = windowWidth != WindowWidthSizeClass.Compact
+    val showBottomBar = !useRail && currentRoute in TopDestinations
+    val onNavigateToTop: (String) -> Unit = { route ->
+        if (currentRoute != route) {
+            view.slightHapticFeedback()
+            navController.navigate(route) {
+                launchSingleTop = true
+                restoreState = true
+                popUpTo(route = Route.HOME) { saveState = true }
             }
+        }
+    }
 
-            AppUpdater()
-            YtdlpUpdater()
+    Row(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+        if (useRail) {
+            NexoNavigationRail(
+                currentTopDestination = currentTopDestination,
+                onNavigate = onNavigateToTop,
+            )
+        }
+        Scaffold(
+            modifier =
+                Modifier.weight(1f)
+                    .then(
+                        if (useRail)
+                            Modifier.consumeWindowInsets(
+                                WindowInsets.safeDrawing.only(WindowInsetsSides.Start)
+                            )
+                        else Modifier
+                    ),
+            containerColor = MaterialTheme.colorScheme.background,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
+            bottomBar = {
+                AnimatedVisibility(
+                    visible = showBottomBar,
+                    enter = slideInVertically { it } + fadeIn(),
+                    exit = slideOutVertically { it } + fadeOut(),
+                ) {
+                    NexoBottomBar(
+                        currentTopDestination = currentTopDestination,
+                        onNavigate = onNavigateToTop,
+                    )
+                }
+            },
+        ) { innerPadding ->
+            Box(
+                modifier =
+                    Modifier.fillMaxSize().padding(innerPadding).consumeWindowInsets(innerPadding)
+            ) {
+                NavHost(
+                    modifier = Modifier.align(Alignment.Center),
+                    navController = navController,
+                    startDestination = Route.HOME,
+                ) {
+                    animatedComposable(Route.HOME) {
+                        DownloadPageV2(dialogViewModel = dialogViewModel)
+                    }
+                    animatedComposable(Route.DOWNLOADS) {
+                        VideoListPage(showBackButton = false) { onNavigateBack() }
+                    }
+                    animatedComposableVariant(Route.TASK_LIST) {
+                        TaskListPage(
+                            showBackButton = false,
+                            onNavigateBack = onNavigateBack,
+                            onNavigateToDetail = { navController.navigate(Route.TASK_LOG id it) },
+                        )
+                    }
+                    slideInVerticallyComposable(
+                        Route.TASK_LOG arg Route.TASK_HASHCODE,
+                        arguments =
+                            listOf(navArgument(Route.TASK_HASHCODE) { type = NavType.IntType }),
+                    ) {
+                        TaskLogPage(
+                            onNavigateBack = onNavigateBack,
+                            taskHashCode = it.arguments?.getInt(Route.TASK_HASHCODE) ?: -1,
+                        )
+                    }
+
+                    settingsGraph(
+                        onNavigateBack = onNavigateBack,
+                        onNavigateTo = { route ->
+                            navController.navigate(route = route) { launchSingleTop = true }
+                        },
+                        cookiesViewModel = cookiesViewModel,
+                    )
+                }
+
+                AppUpdater()
+                YtdlpUpdater()
+            }
         }
     }
 }
@@ -194,7 +225,11 @@ fun NavGraphBuilder.settingsGraph(
             DownloadDirectoryPreferences(onNavigateBack)
         }
         animatedComposable(Route.SETTINGS_PAGE) {
-            SettingsPage(onNavigateBack = onNavigateBack, onNavigateTo = onNavigateTo)
+            SettingsPage(
+                showBackButton = false,
+                onNavigateBack = onNavigateBack,
+                onNavigateTo = onNavigateTo,
+            )
         }
         animatedComposable(Route.GENERAL_DOWNLOAD_PREFERENCES) {
             GeneralDownloadPreferences(onNavigateBack = { onNavigateBack() }) {

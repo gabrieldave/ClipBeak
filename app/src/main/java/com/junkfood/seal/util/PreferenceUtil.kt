@@ -5,7 +5,6 @@ import androidx.annotation.DeprecatedSinceApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
@@ -185,6 +184,9 @@ const val TEMPLATE_SHORTCUTS = "template_shortcuts"
 const val TASK_LIST = "task_list"
 const val SAVED_LINKS = "saved_links"
 
+/** Nexo: estilo "Vibrant" por defecto, para que el índigo de marca se vea saturado. */
+const val NEXO_DEFAULT_PALETTE_STYLE = 3
+
 val paletteStyles =
     listOf(
         PaletteStyle.TonalSpot,
@@ -225,7 +227,7 @@ private val IntPreferenceDefaults =
         TEMPLATE_ID to 0,
         CONCURRENT to 8,
         LANGUAGE to SYSTEM_DEFAULT,
-        PALETTE_STYLE to 0,
+        PALETTE_STYLE to NEXO_DEFAULT_PALETTE_STYLE,
         DARK_THEME_VALUE to DarkThemePreference.FOLLOW_SYSTEM,
         WELCOME_DIALOG to 1,
         AUDIO_CONVERSION_FORMAT to NOT_SPECIFIED,
@@ -378,7 +380,7 @@ object PreferenceUtil {
         val darkTheme: DarkThemePreference = DarkThemePreference(),
         val isDynamicColorEnabled: Boolean = false,
         val seedColor: Int = DEFAULT_SEED_COLOR,
-        val paletteStyleIndex: Int = 0,
+        val paletteStyleIndex: Int = NEXO_DEFAULT_PALETTE_STYLE,
     )
 
     fun getMaxDownloadRate(): String = MAX_RATE.getString()
@@ -392,9 +394,11 @@ object PreferenceUtil {
                     isHighContrastModeEnabled = kv.decodeBool(HIGH_CONTRAST, false),
                 ),
                 isDynamicColorEnabled =
-                    kv.decodeBool(DYNAMIC_COLOR, DynamicColors.isDynamicColorAvailable()),
+                    // Nexo: color de marca por defecto; los colores del fondo de pantalla quedan
+                    // como opción.
+                    kv.decodeBool(DYNAMIC_COLOR, false),
                 seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR),
-                paletteStyleIndex = kv.decodeInt(PALETTE_STYLE, 0),
+                paletteStyleIndex = kv.decodeInt(PALETTE_STYLE, NEXO_DEFAULT_PALETTE_STYLE),
             )
         )
     val AppSettingsStateFlow = mutableAppSettingsStateFlow.asStateFlow()

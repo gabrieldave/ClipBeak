@@ -84,7 +84,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
+fun TaskListPage(
+    showBackButton: Boolean = true,
+    onNavigateBack: () -> Unit,
+    onNavigateToDetail: (Int) -> Unit,
+) {
     val scope = rememberCoroutineScope()
     val view = LocalView.current
 
@@ -106,7 +110,7 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
                         style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
                     )
                 },
-                navigationIcon = { BackButton { onNavigateBack() } },
+                navigationIcon = { if (showBackButton) BackButton { onNavigateBack() } },
                 actions = {},
                 scrollBehavior = scrollBehavior,
             )

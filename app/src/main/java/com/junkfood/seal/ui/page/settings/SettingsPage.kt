@@ -60,7 +60,11 @@ import com.junkfood.seal.util.SHOW_SPONSOR_MSG
 @SuppressLint("BatteryLife")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsPage(onNavigateBack: () -> Unit, onNavigateTo: (String) -> Unit) {
+fun SettingsPage(
+    showBackButton: Boolean = true,
+    onNavigateBack: () -> Unit,
+    onNavigateTo: (String) -> Unit,
+) {
     val context = LocalContext.current
     val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
     var showBatteryHint by remember {
@@ -117,7 +121,7 @@ fun SettingsPage(onNavigateBack: () -> Unit, onNavigateTo: (String) -> Unit) {
             MaterialTheme(typography = overrideTypography) {
                 LargeTopAppBar(
                     title = { Text(text = stringResource(id = R.string.settings)) },
-                    navigationIcon = { BackButton(onNavigateBack) },
+                    navigationIcon = { if (showBackButton) BackButton(onNavigateBack) },
                     scrollBehavior = scrollBehavior,
                     expandedHeight = TopAppBarDefaults.LargeAppBarExpandedHeight + 24.dp,
                 )

@@ -74,6 +74,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -217,6 +218,10 @@ fun DownloadPageV2(
             dialogViewModel.postAction(Action.ShowSheet())
         },
         onMenuOpen = onMenuOpen,
+        onDownloadUrls = { urls ->
+            view.slightHapticFeedback()
+            dialogViewModel.postAction(Action.ShowSheet(urls))
+        },
     ) { task, action ->
         view.slightHapticFeedback()
         when (action) {
@@ -322,6 +327,7 @@ fun DownloadPageImplV2(
     taskDownloadStateMap: SnapshotStateMap<Task, Task.State>,
     downloadCallback: () -> Unit = {},
     onMenuOpen: (() -> Unit) = {},
+    onDownloadUrls: (List<String>?) -> Unit = { downloadCallback() },
     onActionPost: (Task, UiAction) -> Unit,
 ) {
     var activeFilter by remember { mutableStateOf(Filter.All) }
@@ -351,12 +357,23 @@ fun DownloadPageImplV2(
         }
     }
 
+    // Nexo: la lista se comparte con el botón flotante, que solo aparece cuando la tarjeta de
+    // enlace
+    // ya no se ve en pantalla.
+    val lazyListState = rememberLazyGridState()
+    var homeLayout by remember { mutableStateOf<HomeLayout>(HomeLayout.Single) }
+    val heroScrolledAway by remember { derivedStateOf { lazyListState.firstVisibleItemIndex > 0 } }
+
     Scaffold(
         modifier = modifier.fillMaxSize().statusBarsPadding(),
         containerColor = MaterialTheme.colorScheme.surface,
-        floatingActionButton = { FABs(modifier = Modifier, downloadCallback = downloadCallback) },
+        floatingActionButton = {
+            AnimatedDownloadFab(
+                visible = homeLayout == HomeLayout.Single && heroScrolledAway,
+                onClick = downloadCallback,
+            )
+        },
     ) { windowInsetsPadding ->
-        val lazyListState = rememberLazyGridState()
         val windowWidthSizeClass = LocalWindowWidthState.current
         val spacerHeight =
             with(LocalDensity.current) {
@@ -364,117 +381,172 @@ fun DownloadPageImplV2(
                 else HeaderSpacingDp.dp.toPx()
             }
         var headerOffset by remember { mutableFloatStateOf(spacerHeight) }
-        var isGridView by rememberSaveable { mutableStateOf(true) }
+        // Nexo: en pantallas bajas (teléfono en horizontal) la vista de lista aprovecha mejor el
+        // espacio.
+        val tallScreen = LocalConfiguration.current.screenHeightDp >= 480
+        var isGridView by rememberSaveable { mutableStateOf(tallScreen) }
 
-        Column(
-            modifier =
-                Modifier.fillMaxSize()
-                    .then(
-                        if (windowWidthSizeClass != WindowWidthSizeClass.Compact) Modifier
-                        else
-                            Modifier.nestedScroll(
-                                connection =
-                                    TopBarNestedScrollConnection(
-                                        maxOffset = spacerHeight,
-                                        flingAnimationSpec = rememberSplineBasedDecay(),
-                                        offset = { headerOffset },
-                                        onOffsetUpdate = { headerOffset = it },
-                                    )
-                            )
-                    )
-        ) {
-            CompositionLocalProvider(LocalOverscrollFactory provides null) {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Spacer(Modifier.height(with(LocalDensity.current) { headerOffset.toDp() }))
-                    Header(onMenuOpen = onMenuOpen, modifier = Modifier.padding(horizontal = 16.dp))
-                    SelectionGroupRow(
-                        modifier =
-                            Modifier.horizontalScroll(rememberScrollState())
-                                .padding(horizontal = 20.dp)
-                    ) {
-                        Filter.entries.forEach { filter ->
-                            SelectionGroupItem(
-                                colors =
-                                    SelectionGroupDefaults.colors(
-                                        activeContainerColor =
-                                            LocalFixedColorRoles.current.tertiaryFixed,
-                                        activeContentColor =
-                                            LocalFixedColorRoles.current.onTertiaryFixed,
-                                    ),
-                                selected = activeFilter == filter,
-                                onClick = {
-                                    if (activeFilter == filter) {
-                                        scope.launch { lazyListState.animateScrollToItem(0) }
-                                        scope.launch {
-                                            val initialValue = headerOffset
-                                            AnimationState(initialValue = initialValue).animateTo(
-                                                spacerHeight
-                                            ) {
-                                                headerOffset = value
-                                            }
-                                        }
-                                    } else {
-                                        activeFilter = filter
+        @Composable
+        fun FilterRow(chipPadding: Dp) {
+            SelectionGroupRow(
+                modifier =
+                    Modifier.horizontalScroll(rememberScrollState())
+                        .padding(horizontal = chipPadding)
+            ) {
+                Filter.entries.forEach { filter ->
+                    SelectionGroupItem(
+                        colors =
+                            SelectionGroupDefaults.colors(
+                                activeContainerColor = LocalFixedColorRoles.current.tertiaryFixed,
+                                activeContentColor = LocalFixedColorRoles.current.onTertiaryFixed,
+                            ),
+                        selected = activeFilter == filter,
+                        onClick = {
+                            if (activeFilter == filter) {
+                                scope.launch { lazyListState.animateScrollToItem(0) }
+                                scope.launch {
+                                    val initialValue = headerOffset
+                                    AnimationState(initialValue = initialValue).animateTo(
+                                        spacerHeight
+                                    ) {
+                                        headerOffset = value
                                     }
-                                },
-                            ) {
-                                Text(filter.label())
+                                }
+                            } else {
+                                activeFilter = filter
                             }
-                        }
-                    }
-                    Spacer(Modifier.height(8.dp))
-                    if (headerOffset <= 0.1f && spacerHeight > 0f) {
-                        HorizontalDivider(thickness = Dp.Hairline)
+                        },
+                    ) {
+                        Text(filter.label())
                     }
                 }
+            }
+        }
 
-                LazyVerticalGrid(
-                    modifier = Modifier,
-                    state = lazyListState,
-                    columns = GridCells.Adaptive(240.dp),
-                    contentPadding =
-                        windowInsetsPadding +
-                            PaddingValues(start = 20.dp, end = 20.dp, bottom = 80.dp),
-                    horizontalArrangement = Arrangement.spacedBy(24.dp),
-                ) {
-                    if (filteredMap.isNotEmpty()) {
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            val videoCount =
-                                filteredMap.count {
-                                    !it.value.viewState.videoFormats.isNullOrEmpty()
-                                }
-                            SubHeader(
-                                modifier = Modifier,
-                                videoCount = videoCount,
-                                audioCount = filteredMap.size - videoCount,
-                                isGridView = isGridView,
-                                onToggleView = { isGridView = !isGridView },
-                                onShowMenu = { context.makeToast("Not implemented yet!") },
-                            )
+        @Composable
+        fun QueuePane(paneModifier: Modifier, heroInline: (@Composable () -> Unit)?) {
+            val inlineHero = heroInline != null
+            Column(
+                modifier =
+                    paneModifier
+                        .fillMaxSize()
+                        .then(
+                            if (windowWidthSizeClass != WindowWidthSizeClass.Compact) Modifier
+                            else
+                                Modifier.nestedScroll(
+                                    connection =
+                                        TopBarNestedScrollConnection(
+                                            maxOffset = spacerHeight,
+                                            flingAnimationSpec = rememberSplineBasedDecay(),
+                                            offset = { headerOffset },
+                                            onOffsetUpdate = { headerOffset = it },
+                                        )
+                                )
+                        )
+            ) {
+                CompositionLocalProvider(LocalOverscrollFactory provides null) {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Spacer(Modifier.height(with(LocalDensity.current) { headerOffset.toDp() }))
+                        if (inlineHero) NexoTopBar(modifier = Modifier.padding(horizontal = 20.dp))
+                        else HeaderExpanded(modifier = Modifier.padding(horizontal = 16.dp))
+                        if (!inlineHero) FilterRow(chipPadding = 20.dp)
+                        Spacer(Modifier.height(8.dp))
+                        if (headerOffset <= 0.1f && spacerHeight > 0f) {
+                            HorizontalDivider(thickness = Dp.Hairline)
                         }
                     }
 
-                    if (isGridView) {
-                        items(
-                            items =
-                                filteredMap.toList().sortedBy { (_, state) -> state.downloadState },
-                            key = { (task, _) -> task.id },
-                        ) { (task, state) ->
-                            with(state.viewState) {
-                                VideoCardV2(
-                                    modifier = Modifier.padding(bottom = 20.dp).padding(),
-                                    viewState = this,
-                                    actionButton = {
-                                        ActionButton(
-                                            modifier = Modifier,
-                                            downloadState = state.downloadState,
-                                        ) {
-                                            onActionPost(task, it)
-                                        }
+                    LazyVerticalGrid(
+                        modifier = Modifier,
+                        state = lazyListState,
+                        columns = GridCells.Adaptive(240.dp),
+                        contentPadding =
+                            windowInsetsPadding +
+                                PaddingValues(start = 20.dp, end = 20.dp, bottom = 80.dp),
+                        horizontalArrangement = Arrangement.spacedBy(24.dp),
+                    ) {
+                        if (heroInline != null) {
+                            item(span = { GridItemSpan(maxLineSpan) }, contentType = "hero") {
+                                heroInline()
+                            }
+                            item(span = { GridItemSpan(maxLineSpan) }, contentType = "filters") {
+                                Box(Modifier.padding(top = 16.dp)) { FilterRow(chipPadding = 0.dp) }
+                            }
+                        }
+                        if (filteredMap.isEmpty()) {
+                            item(span = { GridItemSpan(maxLineSpan) }, contentType = "empty") {
+                                Box(Modifier.fillMaxWidth().height(300.dp)) {
+                                    DownloadQueuePlaceholder(
+                                        modifier =
+                                            Modifier.fillMaxHeight()
+                                                .widthIn(max = 360.dp)
+                                                .align(Alignment.Center)
+                                    )
+                                }
+                            }
+                        }
+                        if (filteredMap.isNotEmpty()) {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
+                                val videoCount =
+                                    filteredMap.count {
+                                        !it.value.viewState.videoFormats.isNullOrEmpty()
+                                    }
+                                SubHeader(
+                                    modifier = Modifier,
+                                    videoCount = videoCount,
+                                    audioCount = filteredMap.size - videoCount,
+                                    isGridView = isGridView,
+                                    onToggleView = { isGridView = !isGridView },
+                                    onShowMenu = { context.makeToast("Not implemented yet!") },
+                                )
+                            }
+                        }
+
+                        if (isGridView) {
+                            items(
+                                items =
+                                    filteredMap.toList().sortedBy { (_, state) ->
+                                        state.downloadState
                                     },
+                                key = { (task, _) -> task.id },
+                            ) { (task, state) ->
+                                with(state.viewState) {
+                                    VideoCardV2(
+                                        modifier = Modifier.padding(bottom = 20.dp).padding(),
+                                        viewState = this,
+                                        actionButton = {
+                                            ActionButton(
+                                                modifier = Modifier,
+                                                downloadState = state.downloadState,
+                                            ) {
+                                                onActionPost(task, it)
+                                            }
+                                        },
+                                        stateIndicator = {
+                                            CardStateIndicator(
+                                                modifier = Modifier,
+                                                downloadState = state.downloadState,
+                                            )
+                                        },
+                                        onButtonClick = { showActionSheet(task) },
+                                    )
+                                }
+                            }
+                        } else {
+                            items(
+                                items =
+                                    filteredMap.toList().sortedBy { (_, state) ->
+                                        state.downloadState
+                                    },
+                                key = { (task, _) -> task.id },
+                                span = { GridItemSpan(maxLineSpan) },
+                            ) { (task, state) ->
+                                VideoListItem(
+                                    modifier = Modifier.padding(bottom = 16.dp),
+                                    viewState = state.viewState,
                                     stateIndicator = {
-                                        CardStateIndicator(
-                                            modifier = Modifier,
+                                        ListItemStateText(
+                                            modifier = Modifier.padding(top = 3.dp),
                                             downloadState = state.downloadState,
                                         )
                                     },
@@ -482,37 +554,27 @@ fun DownloadPageImplV2(
                                 )
                             }
                         }
-                    } else {
-                        items(
-                            items =
-                                filteredMap.toList().sortedBy { (_, state) -> state.downloadState },
-                            key = { (task, _) -> task.id },
-                            span = { GridItemSpan(maxLineSpan) },
-                        ) { (task, state) ->
-                            VideoListItem(
-                                modifier = Modifier.padding(bottom = 16.dp),
-                                viewState = state.viewState,
-                                stateIndicator = {
-                                    ListItemStateText(
-                                        modifier = Modifier.padding(top = 3.dp),
-                                        downloadState = state.downloadState,
-                                    )
-                                },
-                                onButtonClick = { showActionSheet(task) },
-                            )
-                        }
                     }
                 }
             }
         }
-        if (filteredMap.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                DownloadQueuePlaceholder(
-                    modifier =
-                        Modifier.fillMaxHeight(0.4f).widthIn(max = 360.dp).align(Alignment.Center)
-                )
-            }
-        }
+
+        // Nexo: uno o dos paneles según el ancho de pantalla y la bisagra del plegable.
+        AdaptiveHomeLayout(
+            onLayoutChange = { homeLayout = it },
+            single = {
+                QueuePane(paneModifier = Modifier) {
+                    PasteLinkCard(
+                        modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+                        onDownload = onDownloadUrls,
+                    )
+                }
+            },
+            hero = { paneModifier ->
+                HeroPane(modifier = paneModifier, onDownload = onDownloadUrls)
+            },
+            queue = { paneModifier -> QueuePane(paneModifier = paneModifier, heroInline = null) },
+        )
     }
     if (selectedTask != null) {
         val task = selectedTask!!

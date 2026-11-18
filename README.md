@@ -16,7 +16,10 @@ Basado en [Seal](https://github.com/JunkFood02/Seal) · Funciona con [yt-dlp](ht
 Nexo es un fork de **Seal**, la app de JunkFood02 que ofrece una interfaz gráfica para yt-dlp. Nexo mantiene todas las funciones de Seal y cambia la identidad y la experiencia visual:
 
 - Interfaz rediseñada con **Material 3 Expressive**: movimiento con física de resorte, formas más redondeadas, indicadores de carga que cambian de forma y barras de progreso onduladas.
-- Paleta e icono propios.
+- **Inicio nuevo**: pega un enlace y descarga desde la primera pantalla.
+- **Navegación adaptable**: barra inferior en teléfonos y riel lateral en tablets, plegables abiertos y teléfonos en horizontal.
+- **Hecho para plegables**: dos paneles en pantallas anchas, el contenido nunca queda partido por la bisagra y hay una distribución especial para la postura "mesa".
+- Paleta índigo, tipografía Outfit e icono propios.
 - Puede instalarse junto a Seal sin conflicto, porque usa otro identificador de paquete (`io.github.gabrieldave.nexo`).
 
 La lista completa de cambios respecto a Seal está en [NOTICE.md](NOTICE.md).
@@ -55,6 +58,7 @@ Este programa se distribuye **sin ninguna garantía**.
 
 - **[Seal](https://github.com/JunkFood02/Seal)**, de JunkFood02 y sus colaboradores, la base de este proyecto. Si Nexo te resulta útil, considera [apoyar al desarrollador de Seal](https://github.com/sponsors/JunkFood02).
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp), [youtubedl-android](https://github.com/yausername/youtubedl-android), [FFmpeg](https://ffmpeg.org), [aria2](https://github.com/aria2/aria2) y el resto de bibliotecas que aparecen en la pantalla de Créditos de la app.
+- Fuente [Outfit](https://github.com/Outfitio/Outfit-Fonts), con licencia SIL Open Font License 1.1.
 - Traducciones: la comunidad de Seal en [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
 
 ## Uso responsable

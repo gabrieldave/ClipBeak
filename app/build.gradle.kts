@@ -159,6 +159,8 @@ ktfmt { kotlinLangStyle() }
 kotlin { jvmToolchain(21) }
 
 dependencies {
+    // Nexo: estado de bisagra y postura para teléfonos plegables.
+    implementation(libs.androidx.window)
     implementation(project(":color"))
 
     implementation(libs.bundles.core)

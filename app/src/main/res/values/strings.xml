@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Nexo</string>
+    <string name="brand_name" translatable="false">Nexo</string>
     <string name="video_directory">Video folder</string>
     <string name="extract_audio">Save as audio</string>
     <string name="create_thumbnail">Save thumbnail</string>
@@ -460,4 +461,10 @@
     <string name="license_notice_text">Nexo\nCopyright (C) 2026 gabrieldave\nBased on Seal, Copyright (C) JunkFood02 and contributors.\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\nSource code: github.com/gabrieldave/Nexo</string>
     <string name="license_read_full">Read license</string>
     <string name="retry">Retry</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_commands">Commands</string>
+    <string name="paste_link_title">What do you want to download?</string>
+    <string name="paste_link_desc">Paste a link from any of the 1,000+ sites supported by yt-dlp</string>
+    <string name="paste_link_hint">Paste a link</string>
+    <string name="no_link_found">We couldn\'t find a link in that text</string>
 </resources>

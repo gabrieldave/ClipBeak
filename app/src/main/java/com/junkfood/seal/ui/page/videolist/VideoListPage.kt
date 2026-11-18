@@ -134,7 +134,11 @@ private const val TAG = "VideoListPage"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBack: () -> Unit) {
+fun VideoListPage(
+    viewModel: VideoListViewModel = koinViewModel(),
+    showBackButton: Boolean = true,
+    onNavigateBack: () -> Unit,
+) {
     val viewState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val fullVideoList by viewModel.videoListFlow.collectAsStateWithLifecycle(emptyList())
     val searchedVideoList by
@@ -287,7 +291,7 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
                 title = {
                     Text(modifier = Modifier, text = stringResource(R.string.downloads_history))
                 },
-                navigationIcon = { BackButton { onNavigateBack() } },
+                navigationIcon = { if (showBackButton) BackButton { onNavigateBack() } },
                 actions = {
                     Row {
                         if (fullVideoList.isNotEmpty()) {

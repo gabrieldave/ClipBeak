@@ -456,4 +456,10 @@
     <string name="license_notice_text">Nexo\nCopyright (C) 2026 gabrieldave\nBasado en Seal, Copyright (C) JunkFood02 y colaboradores.\n\nEste programa es software libre: puedes redistribuirlo y/o modificarlo bajo los términos de la Licencia Pública General de GNU publicada por la Free Software Foundation, ya sea la versión 3 de la Licencia o (a tu elección) cualquier versión posterior.\n\nEste programa se distribuye con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA; ni siquiera la garantía implícita de COMERCIABILIDAD o IDONEIDAD PARA UN PROPÓSITO PARTICULAR. Consulta la Licencia Pública General de GNU para más detalles.\n\nCódigo fuente: github.com/gabrieldave/Nexo</string>
     <string name="license_read_full">Leer licencia</string>
     <string name="retry">Reintentar</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_commands">Comandos</string>
+    <string name="paste_link_title">¿Qué quieres descargar?</string>
+    <string name="paste_link_desc">Pega un enlace de cualquiera de los más de 1000 sitios compatibles con yt-dlp</string>
+    <string name="paste_link_hint">Pega un enlace</string>
+    <string name="no_link_found">No encontramos un enlace en ese texto</string>
 </resources>

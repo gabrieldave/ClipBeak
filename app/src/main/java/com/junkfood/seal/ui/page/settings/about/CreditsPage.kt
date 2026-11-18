@@ -70,6 +70,8 @@ fun CreditsPage(onNavigateBack: () -> Unit) {
 
     val creditsList =
         listOf(
+            Credit("Seal", GPL_V3, "https://github.com/JunkFood02/Seal"),
+            Credit("Outfit (fuente)", "SIL Open Font License 1.1", "https://github.com/Outfitio/Outfit-Fonts"),
             Credit("yt-dlp", UNLICENSE, ytdlpUrl),
             Credit("Read You", GPL_V3, readYou),
             Credit("youtubedl-android", GPL_V3, youtubedlAndroidUrl),

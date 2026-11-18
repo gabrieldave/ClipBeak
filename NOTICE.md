@@ -40,6 +40,20 @@ Los nombres internos del código (por ejemplo el paquete Kotlin `com.junkfood.se
 - Botón "Reintentar" traducible (antes estaba fijo en inglés).
 - Se eliminó una vista previa de depuración en `ModalBottomSheetM2.kt`.
 
+### Inicio, navegación y pantallas grandes (18 de noviembre de 2026, segunda entrega)
+- Pantalla de inicio nueva (`ui/page/downloadv2/NexoHome.kt`): tarjeta para pegar un enlace con botón de pegar y botón de descargar, que abre directamente la configuración de la descarga. El botón flotante solo aparece al desplazarse.
+- El menú lateral se sustituyó por navegación adaptable (`ui/page/NexoNavigation.kt`): barra inferior (`ShortNavigationBar`) en teléfonos y riel lateral (`WideNavigationRail`) en plegables abiertos, tablets y teléfonos en horizontal. Las pestañas principales ya no muestran flecha de "atrás".
+- Soporte para plegables (`ui/common/Foldables.kt`, dependencia `androidx.window`): dos paneles en pantallas anchas, división en la bisagra en postura libro y descargas arriba con el campo de enlace abajo en postura mesa.
+- `MainActivity` gestiona por sí misma los cambios de tamaño (`configChanges`), para que el estado no se pierda al plegar o desplegar.
+- Teléfono en horizontal: dos paneles y vista de lista por defecto.
+- Marca visible: color índigo de Nexo por defecto (los colores del fondo de pantalla siguen disponibles en Ajustes > Apariencia) con estilo de paleta "Vibrant".
+- Tipografía de marca Outfit para títulos (ver "Componentes de terceros").
+- Créditos de la app: se agregaron Seal y la fuente Outfit.
+
+## Componentes de terceros agregados por Nexo
+
+- **Outfit**, de The Outfit Project Authors (https://github.com/Outfitio/Outfit-Fonts), con licencia SIL Open Font License 1.1. Archivos: `app/src/main/res/font/outfit_*.ttf`. El texto de la licencia acompaña a la app en `app/src/main/assets/licenses/OFL-Outfit.txt`. La OFL permite incluir la fuente en software con cualquier licencia, siempre que la fuente no se venda por separado.
+
 Cada cambio en el código se puede rastrear en el historial de git de este repositorio.
 
 ## Código fuente

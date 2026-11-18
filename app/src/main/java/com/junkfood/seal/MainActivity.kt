@@ -8,9 +8,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.ui.common.LocalDarkTheme
+import com.junkfood.seal.ui.common.LocalFoldState
 import com.junkfood.seal.ui.common.SettingsProvider
+import com.junkfood.seal.ui.common.rememberFoldState
 import com.junkfood.seal.ui.page.AppEntry
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
 import com.junkfood.seal.ui.theme.SealTheme
@@ -37,12 +41,17 @@ class MainActivity : AppCompatActivity() {
         setContent {
             KoinContext {
                 val windowSizeClass = calculateWindowSizeClass(this)
+                // Nexo: la bisagra de los plegables llega a toda la interfaz.
+                val foldState by rememberFoldState(this)
                 SettingsProvider(windowWidthSizeClass = windowSizeClass.widthSizeClass) {
-                    SealTheme(
-                        darkTheme = LocalDarkTheme.current.isDarkTheme(),
-                        isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
-                    ) {
-                        AppEntry(dialogViewModel = dialogViewModel)
+                    CompositionLocalProvider(LocalFoldState provides foldState) {
+                        SealTheme(
+                            darkTheme = LocalDarkTheme.current.isDarkTheme(),
+                            isHighContrastModeEnabled =
+                                LocalDarkTheme.current.isHighContrastModeEnabled,
+                        ) {
+                            AppEntry(dialogViewModel = dialogViewModel)
+                        }
                     }
                 }
             }
