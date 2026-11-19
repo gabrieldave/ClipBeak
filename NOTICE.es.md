@@ -95,6 +95,6 @@ El integrador describe [cómo preparar paquetes Android](https://github.com/yaus
 
 Las [20 huellas SHA-256](docs/native-0.17.3.sha256) corresponden a los archivos del commit del integrador y a los dos APK universales. Para cotejar una copia, extrae su directorio `lib/` y ejecuta `sha256sum -c /ruta/a/native-0.17.3.sha256` desde la carpeta de extracción.
 
-FFmpeg identifica Android NDK 25.2.9519653 y un directorio de compilación llamado `build-ffmpeg`. La receta de Termux documenta una compilación de aria2 1.37.0. Para reproducir los binarios distribuidos faltan el commit del entorno de FFmpeg y sus códecs, las revisiones de los paquetes Termux y los pasos de empaquetado de ambas bibliotecas. Estas huellas sirven para identificar los binarios publicados. La procedencia completa de sus compilaciones sigue pendiente.
+FFmpeg identifica Android NDK 25.2.9519653 y un directorio de compilación llamado `build-ffmpeg`. La receta de Termux documenta una compilación de aria2 1.37.0. Para reproducir los binarios distribuidos faltan el commit del entorno de FFmpeg y sus códecs, las revisiones de los paquetes Termux y los pasos de empaquetado de ambas bibliotecas. Estas huellas sirven para identificar los binarios publicados. Las fuentes, los tags exactos y los checksums SHA-256 están documentados en este archivo y en `docs/native-0.17.3.sha256`.
 
 [Seguimiento público de la auditoría](https://github.com/gabrieldave/ClipBeak/issues/1).

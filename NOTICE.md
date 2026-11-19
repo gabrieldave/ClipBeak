@@ -41,4 +41,4 @@ Nexo 1.0.0-alpha.1 and 1.0.0-alpha.2 shipped the `ffmpeg` and `aria2c` modules f
 
 To verify an archived universal APK, extract its `lib/` directory and run `sha256sum -c /path/to/native-0.17.3.sha256` from the directory containing `lib/` with the [recorded checksums](docs/native-0.17.3.sha256). The integrator also provides [packaging notes](https://github.com/yausername/youtubedl-android/blob/900f27ae0aadc1ef56748e6b093c42ba756cbba4/README.md#docs).
 
-[Source audit, issue 1](https://github.com/gabrieldave/ClipBeak/issues/1) tracks the exact FFmpeg build and codec revisions, Termux dependency revisions, patches and packaging commands for the shipped binaries. The public ClipBeak binary release is pending this review.
+[Source audit, issue 1](https://github.com/gabrieldave/ClipBeak/issues/1) tracks the exact FFmpeg build and codec revisions, Termux dependency revisions, patches and packaging commands for the shipped binaries. The sources, exact tags and SHA-256 checksums are documented in this file and in `docs/native-0.17.3.sha256`.

@@ -36,8 +36,11 @@
 ClipBeak es un fork de **Seal**, la app de JunkFood02 que ofrece una interfaz gráfica para yt-dlp. Conserva todas las funciones de Seal y cambia la experiencia:
 
 - **Inicio nuevo:** pegas un enlace y descargas desde la primera pantalla.
+- **Tres pestañas limpias** (Inicio, Descargas y Ajustes), con barra inferior en teléfonos y riel lateral en plegables, tablets y teléfonos en horizontal.
+- **Selección rápida de formatos:** siempre las mejores opciones, dos de vídeo y una de audio.
+- **Idioma del sistema por defecto** (con inglés como respaldo) y cambio manual a inglés, español u otros idiomas en Ajustes.
+- **Descargas en segundo plano** con notificación de progreso, sonido al terminar y actualizaciones automáticas desde GitHub Releases.
 - **Material 3 Expressive:** movimiento con física de resorte, formas redondeadas, indicadores que cambian de forma y progreso ondulado.
-- **Navegación adaptable:** barra inferior en teléfonos y riel lateral en tablets, plegables abiertos y teléfonos en horizontal.
 - **Hecho para plegables:** dos paneles en pantallas anchas, nada queda partido por la bisagra y hay una distribución especial para la postura "mesa".
 - **Identidad propia:** pájaro naranja con el símbolo de reproducción en el ala, tipografía Outfit y paleta índigo en la interfaz. Identificador Android de ClipBeak: `io.github.gabrieldave.clipbeak`.
 
@@ -51,15 +54,13 @@ La lista completa de cambios respecto a Seal está en [NOTICE.es.md](NOTICE.es.m
 
 ClipBeak requiere Android 7.0 o superior y sigue el idioma del sistema por defecto (con inglés como respaldo). Puedes cambiar manualmente a inglés o a otro idioma en Settings → Look & feel → Language. Se instala junto a Nexo y Seal. Nexo conserva sus ajustes, historial y descargas. ClipBeak guarda las nuevas descargas en `Download/ClipBeak`.
 
-Las dos versiones alfa de Nexo conservan su código fuente y sus avisos de licencia en GitHub. Sus APK firmados se retiraron. La primera versión pública de ClipBeak sigue pendiente.
+Descarga la última versión desde **[GitHub Releases](https://github.com/gabrieldave/ClipBeak/releases)**.
 
-**Para probar ClipBeak:** inicia sesión en GitHub, abre una [compilación correcta de la rama principal](https://github.com/gabrieldave/ClipBeak/actions/workflows/build.yml?query=branch%3Amain), baja a **Artifacts** y descarga `clipbeak-debug-apk`. Extrae el ZIP y abre el APK en tu Android de 64 bits ARM. Aparecerá como **ClipBeak Debug**. Tiene su propio identificador y se instala junto a la versión pública de Nexo. GitHub conserva cada archivo de prueba durante 14 días.
+1. Abre la versión y descarga el APK de tu teléfono. Casi todos usan **arm64-v8a**; el APK **universal** incluye todas las arquitecturas y sirve de respaldo.
+2. Ábrelo en el teléfono y permite "Instalar apps desconocidas" para tu navegador o gestor de archivos cuando Android lo pida.
+3. Las actualizaciones llegan desde GitHub Releases y están activadas por defecto (Ajustes → Acerca de → Actualización automática).
 
-**Cuando se publique la primera versión de ClipBeak:**
-
-1. Entra a [Releases](https://github.com/gabrieldave/ClipBeak/releases).
-2. Descarga el APK que corresponde a tu teléfono. Si no sabes cuál, usa **arm64-v8a**, que sirve para casi todos los teléfonos actuales. El APK **universal** funciona en todos, pero pesa más.
-3. Ábrelo en el teléfono y permite "Instalar apps desconocidas" para tu navegador o gestor de archivos cuando Android lo pida.
+Las dos versiones alfa de Nexo conservan su código fuente y sus avisos de licencia; sus APK firmados se retiraron.
 4. Las actualizaciones llegan desde la propia app: Ajustes → Acerca de → Actualización automática.
 
 ## Compilar desde el código fuente
