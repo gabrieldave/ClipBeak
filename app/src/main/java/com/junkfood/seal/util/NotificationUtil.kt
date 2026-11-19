@@ -8,6 +8,8 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -33,6 +35,7 @@ object NotificationUtil {
     private const val PROGRESS_MAX = 100
     private const val PROGRESS_INITIAL = 0
     private const val CHANNEL_ID = "download_notification"
+    private const val COMPLETED_CHANNEL_ID = "download_completed"
     private const val SERVICE_CHANNEL_ID = "download_service"
     private const val NOTIFICATION_GROUP_ID = "seal.download.notification"
     private const val DEFAULT_NOTIFICATION_ID = 100
@@ -56,6 +59,24 @@ object NotificationUtil {
                 description = descriptionText
                 group = NOTIFICATION_GROUP_ID
             }
+        val completedChannel =
+            NotificationChannel(
+                    COMPLETED_CHANNEL_ID,
+                    context.getString(R.string.completed_channel_name),
+                    NotificationManager.IMPORTANCE_DEFAULT,
+                )
+                .apply {
+                    description = context.getString(R.string.completed_channel_description)
+                    group = NOTIFICATION_GROUP_ID
+                    enableVibration(true)
+                    setSound(
+                        RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
+                        AudioAttributes.Builder()
+                            .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
+                            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                            .build(),
+                    )
+                }
         val serviceChannel =
             NotificationChannel(SERVICE_CHANNEL_ID, name, importance).apply {
                 description = context.getString(R.string.service_title)
@@ -63,6 +84,7 @@ object NotificationUtil {
             }
         notificationManager.createNotificationChannelGroup(channelGroup)
         notificationManager.createNotificationChannel(channel)
+        notificationManager.createNotificationChannel(completedChannel)
         notificationManager.createNotificationChannel(serviceChannel)
     }
 
@@ -116,11 +138,15 @@ object NotificationUtil {
         if (!NOTIFICATION.getBoolean()) return
 
         val builder =
-            NotificationCompat.Builder(context, CHANNEL_ID)
+            NotificationCompat.Builder(context, COMPLETED_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_seal)
                 .setContentText(text)
                 .setOngoing(false)
                 .setAutoCancel(true)
+                .setOnlyAlertOnce(false)
+                .setDefaults(NotificationCompat.DEFAULT_SOUND or NotificationCompat.DEFAULT_VIBRATE)
+                .setCategory(NotificationCompat.CATEGORY_STATUS)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         title?.let { builder.setContentTitle(title) }
         intent?.let { builder.setContentIntent(intent) }
         notificationManager.notify(notificationId, builder.build())
@@ -133,12 +159,16 @@ object NotificationUtil {
     ) {
         //        notificationManager.cancel(notificationId)
         val builder =
-            NotificationCompat.Builder(context, CHANNEL_ID)
+            NotificationCompat.Builder(context, COMPLETED_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_seal)
                 .setContentText(text)
                 .setProgress(0, 0, false)
                 .setAutoCancel(true)
                 .setOngoing(false)
+                .setOnlyAlertOnce(false)
+                .setDefaults(NotificationCompat.DEFAULT_SOUND or NotificationCompat.DEFAULT_VIBRATE)
+                .setCategory(NotificationCompat.CATEGORY_STATUS)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(null)
         title?.let { builder.setContentTitle(title) }
 

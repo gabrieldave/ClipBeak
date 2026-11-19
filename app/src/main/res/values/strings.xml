@@ -103,6 +103,8 @@
     <string name="defaults">Default</string>
     <string name="channel_name">Download</string>
     <string name="channel_description">Notify of downloaded files and progress</string>
+    <string name="completed_channel_name">Downloads completed</string>
+    <string name="completed_channel_description">Play a sound when a download finishes</string>
     <string name="video_url">Video link</string>
     <string name="download_finish_notification">Download finished. Tap to open.</string>
     <string name="execute_command_notification">Running custom commands…</string>

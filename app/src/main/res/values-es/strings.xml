@@ -96,6 +96,8 @@
     <string name="defaults">Predeterminado</string>
     <string name="channel_name">Descargar</string>
     <string name="channel_description">Mostrar el progreso de las descargas y un mensaje de finalización</string>
+    <string name="completed_channel_name">Descargas terminadas</string>
+    <string name="completed_channel_description">Reproduce un sonido al terminar una descarga</string>
     <string name="video_url">Enlace del vídeo</string>
     <string name="concurrent_download">Descarga con múltiples hilos</string>
     <string name="concurrent_download_desc">Descargar múltiples fragmentos de vídeos m3u8/mpd en paralelo</string>
