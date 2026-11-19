@@ -7,7 +7,7 @@
 [English](README.md) · **Español**
 
 **Descargador de video y audio para Android, con interfaz Material 3 Expressive.**
-Proyecto original de JunkFood02 y los colaboradores de [Seal](https://github.com/JunkFood02/Seal). Rediseño de esta versión por gabrieldave. Motor de descarga: [yt-dlp](https://github.com/yt-dlp/yt-dlp).
+**ClipBeak es el nuevo nombre de Nexo**, el proyecto Android creado y mantenido por **gabrieldave**. El rediseño de la interfaz, la navegación y la adaptación a plegables son aportaciones de gabrieldave a Nexo. La aplicación original, [Seal](https://github.com/JunkFood02/Seal), es obra de JunkFood02 y sus colaboradores. Motor de descarga: [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
 [![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-blue.svg)](LICENSE)
 [![Build](https://github.com/gabrieldave/Nexo/actions/workflows/build.yml/badge.svg)](https://github.com/gabrieldave/Nexo/actions/workflows/build.yml)
@@ -39,7 +39,7 @@ ClipBeak es un fork de **Seal**, la app de JunkFood02 que ofrece una interfaz gr
 - **Material 3 Expressive:** movimiento con física de resorte, formas redondeadas, indicadores que cambian de forma y progreso ondulado.
 - **Navegación adaptable:** barra inferior en teléfonos y riel lateral en tablets, plegables abiertos y teléfonos en horizontal.
 - **Hecho para plegables:** dos paneles en pantallas anchas, nada queda partido por la bisagra y hay una distribución especial para la postura "mesa".
-- **Identidad propia:** pájaro naranja con el símbolo de reproducción en el ala, tipografía Outfit y paleta índigo en la interfaz. Se instala junto a Seal sin conflicto (`io.github.gabrieldave.nexo`).
+- **Identidad propia:** pájaro naranja con el símbolo de reproducción en el ala, tipografía Outfit y paleta índigo en la interfaz. Identificador Android de ClipBeak: `io.github.gabrieldave.clipbeak`.
 
 <img src="docs/screenshots/plegables.png" width="70%" alt="ClipBeak en un plegable" />
 
@@ -49,7 +49,7 @@ La lista completa de cambios respecto a Seal está en [NOTICE.md](NOTICE.md).
 
 ## Instalar
 
-ClipBeak requiere Android 7.0 o superior. Las versiones públicas 1.0.0-alpha.1 y 1.0.0-alpha.2 llevan el nombre **Nexo**.
+ClipBeak requiere Android 7.0 o superior. Las versiones públicas 1.0.0-alpha.1 y 1.0.0-alpha.2 llevan el nombre **Nexo**. La primera versión pública de ClipBeak se instalará junto a Nexo y Seal. Nexo conserva sus ajustes, historial y descargas. ClipBeak guardará las nuevas descargas en `Download/ClipBeak`.
 
 **Para probar ClipBeak:** inicia sesión en GitHub, abre una [compilación correcta de la rama principal](https://github.com/gabrieldave/Nexo/actions/workflows/build.yml?query=branch%3Amain), baja a **Artifacts** y descarga `clipbeak-debug-apk`. Extrae el ZIP y abre el APK en tu Android de 64 bits ARM. Aparecerá como **ClipBeak Debug**. Tiene su propio identificador y se instala junto a la versión pública de Nexo. GitHub conserva cada archivo de prueba durante 14 días.
 
@@ -96,66 +96,27 @@ En Windows usa `gradlew.bat` en lugar de `./gradlew`.
 
 ## Firmar tus propias versiones
 
-Para actualizar una instalación existente, conserva su identidad de firma. Una rotación de llave requiere una transición compatible con las versiones de Android de tus usuarios. La llave la creas tú, gratis, en tu computadora. No hace falta Google Play Console.
-
-### 1. Crear la llave (una sola vez)
-
-Si ya tienes una llave (`.jks`) con sus contraseñas, puedes usarla y saltarte este paso.
+En tu Mac o en Linux, con JDK 21 y OpenSSL, ejecuta:
 
 ```bash
-keytool -genkeypair -v -keystore clipbeak-release.jks -alias clipbeak \
-  -keyalg RSA -keysize 4096 -validity 10000
+scripts/setup-clipbeak-signing.sh
 ```
 
-Al crear una llave nueva, escribe un nombre público como ClipBeak en los campos de nombre y organización del certificado. El alias interno de la llave es un dato distinto. Android distribuye ese certificado dentro de cada APK. Conserva la llave original de una app ya publicada para sus actualizaciones.
+El script pide una contraseña y crea el almacén PKCS12 en `~/.config/clipbeak/release.p12` (o dentro de `XDG_CONFIG_HOME`). El certificado público de cada APK identifica al proyecto como ClipBeak. Guarda una copia privada del archivo y de su contraseña. Las siguientes actualizaciones de ClipBeak necesitan esa misma firma.
 
-Guarda el archivo `.jks` y las contraseñas **fuera del repositorio**, con copia de respaldo. Si los pierdes, no podrás publicar actualizaciones de tu app.
-
-### 2. Decirle a Gradle dónde está
-
-Crea `keystore.properties` en la raíz del proyecto. Ya está en `.gitignore` y nunca se sube:
-
-```properties
-storeFile=/ruta/completa/a/clipbeak-release.jks
-storePassword=tu_contraseña_del_almacén
-keyAlias=clipbeak
-keyPassword=tu_contraseña_de_la_llave
-```
-
-### 3. Compilar firmado
-
-```bash
-./gradlew assembleGenericRelease
-```
+Para compilar en tu equipo, define `CLIPBEAK_KEYSTORE_PATH` con la ruta del almacén y `CLIPBEAK_STORE_PASSWORD` con la contraseña en tu entorno local. Ejecuta `./gradlew --no-configuration-cache assembleGenericRelease`. Las versiones de prueba llevan la firma de depuración de Android.
 
 ## Publicar una release con GitHub Actions
 
-El repositorio trae dos workflows:
-
-- **Build** (`.github/workflows/build.yml`): compila un APK de prueba en cada push y pull request. **Funciona en forks** porque no usa secretos.
-- **Release** (`.github/workflows/release.yml`): al subir una etiqueta `v*`, compila, firma y publica la release con los APKs. En un fork sin llave no falla: avisa y se detiene.
-
-El flujo verifica la firma sin imprimir los campos del certificado. Detiene la publicación si reconoce el certificado de las dos primeras versiones alfa, que contiene datos personales. Una transición de firma requiere comprobar la continuidad de las actualizaciones en las versiones de Android compatibles.
-
-Para activar las releases firmadas en tu repositorio:
-
-1. Desde una carpeta privada fuera del repositorio, convierte la llave a texto:
-   - Linux: `base64 -w0 clipbeak-release.jks > clipbeak-release.b64`
-   - macOS: `base64 -i clipbeak-release.jks -o clipbeak-release.b64`
-   - Windows (PowerShell): `[Convert]::ToBase64String([IO.File]::ReadAllBytes("clipbeak-release.jks")) > clipbeak-release.b64`
-2. En GitHub, ve a **Settings → Secrets and variables → Actions → New repository secret** y crea:
-   - `KEYSTORE_BASE64`: el contenido de `clipbeak-release.b64`
-   - `KEYSTORE_PASSWORD`, `KEY_ALIAS` y `KEY_PASSWORD`
-3. Borra `clipbeak-release.b64` de tu computadora.
-4. Sube la versión en `buildSrc/src/main/kotlin/Version.kt`, haz commit y crea la etiqueta con el mismo número:
+Desde una computadora con GitHub CLI y una sesión abierta para tu repositorio, ejecuta:
 
 ```bash
-# Ejemplo para una versión futura con ese número en Version.kt
-git tag v1.0.0-alpha.3
-git push origin v1.0.0-alpha.3
+scripts/setup-clipbeak-signing.sh --github
 ```
 
-La versión se define **solo** en `Version.kt`. El nombre, el `versionCode`, el nombre del APK y el actualizador salen de ahí.
+El script crea la llave o recupera la existente. Registra dos secretos de Actions, `CLIPBEAK_KEYSTORE_BASE64` y `CLIPBEAK_STORE_PASSWORD`, y la huella pública en `CLIPBEAK_CERT_SHA256`. Si mantienes otro fork, define `CLIPBEAK_REPOSITORY=usuario/repositorio` para elegir el destino.
+
+El [flujo Build](.github/workflows/build.yml) compila las ramas sin credenciales de publicación. Antes de publicar, revisa las [fuentes de los componentes nativos](NOTICE.md#fuentes-de-ffmpeg-y-aria2), actualiza [Version.kt](buildSrc/src/main/kotlin/Version.kt) y sube una etiqueta con esa versión precedida por `v`. El [flujo Release](.github/workflows/release.yml) verifica el paquete y la firma de los cinco APK antes de subirlos.
 
 ## Contribuir
 

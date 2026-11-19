@@ -1,12 +1,3 @@
-# ClipBeak: publica una release firmada al subir una etiqueta "v*" (por ejemplo v1.0.0-alpha.1).
-#
-# Necesita estos secretos en Settings > Secrets and variables > Actions:
-#   KEYSTORE_BASE64     el archivo .jks codificado en base64
-#   KEYSTORE_PASSWORD   contraseña del almacén
-#   KEY_ALIAS           alias de la llave
-#   KEY_PASSWORD        contraseña de la llave
-#
-# En un fork sin esos secretos, el workflow no falla: avisa y se detiene sin publicar nada.
 name: Release
 
 on:
@@ -19,82 +10,75 @@ permissions:
 
 jobs:
   release:
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     env:
-      HAS_KEYSTORE: ${{ secrets.KEYSTORE_BASE64 != '' }}
+      HAS_KEYSTORE: ${{ secrets.CLIPBEAK_KEYSTORE_BASE64 != '' }}
+      EXPECTED_SIGNER: ${{ vars.CLIPBEAK_CERT_SHA256 }}
     steps:
-      - name: Aviso para forks sin llave
+      - name: Aviso para repositorios sin firma
         if: env.HAS_KEYSTORE != 'true'
-        run: |
-          echo "::notice::No hay llave de firma configurada (normal en forks). Usa el workflow Build para APKs de prueba."
+        run: echo "::notice::Falta configurar la firma de ClipBeak. La etiqueta no publicará APK."
 
       - uses: actions/checkout@v4
         if: env.HAS_KEYSTORE == 'true'
 
-      - name: Instalar JDK 21
+      - uses: actions/setup-java@v4
         if: env.HAS_KEYSTORE == 'true'
-        uses: actions/setup-java@v4
         with:
           java-version: "21"
           distribution: "temurin"
 
-      - name: Instalar Android SDK
+      - uses: android-actions/setup-android@v4
         if: env.HAS_KEYSTORE == 'true'
-        uses: android-actions/setup-android@v4
 
       - uses: gradle/actions/setup-gradle@v4
         if: env.HAS_KEYSTORE == 'true'
 
-      - name: Preparar llave de firma (solo en el runner, nunca en el repo)
+      - name: Firmar con el certificado de ClipBeak
         if: env.HAS_KEYSTORE == 'true'
         env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          ENCODED_KEYSTORE: ${{ secrets.CLIPBEAK_KEYSTORE_BASE64 }}
+          CLIPBEAK_STORE_PASSWORD: ${{ secrets.CLIPBEAK_STORE_PASSWORD }}
+          CLIPBEAK_KEYSTORE_PATH: ${{ runner.temp }}/clipbeak.p12
         run: |
+          set -euo pipefail
           umask 077
-          echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/clipbeak.jks"
-          {
-            echo "storeFile=$RUNNER_TEMP/clipbeak.jks"
-            echo "storePassword=$KEYSTORE_PASSWORD"
-            echo "keyAlias=$KEY_ALIAS"
-            echo "keyPassword=$KEY_PASSWORD"
-          } > keystore.properties
+          trap 'rm -f -- "$CLIPBEAK_KEYSTORE_PATH"' EXIT
+          printf '%s' "$ENCODED_KEYSTORE" | base64 --decode > "$CLIPBEAK_KEYSTORE_PATH"
+          unset ENCODED_KEYSTORE
+          test "$(scripts/signing-fingerprint.sh)" = "$EXPECTED_SIGNER"
+          bash gradlew --no-daemon --no-configuration-cache assembleGenericRelease
 
-      - name: Compilar APKs firmados
+      - name: Verificar los APK antes de publicar
         if: env.HAS_KEYSTORE == 'true'
         run: |
-          chmod +x gradlew
-          ./gradlew assembleGenericRelease
-
-      - name: Verificar firma
-        if: env.HAS_KEYSTORE == 'true'
-        run: |
-          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
-          # Public SHA-256 of the alpha signer with personal information in its subject.
-          previous_signer=fdac2a6296e4b402e9b8443bdac8dde6690f1f27f8407f5f07b25d53481981d8
-          for apk in app/build/outputs/apk/generic/release/*.apk; do
-            certificates=$("$APKSIGNER" verify --print-certs "$apk")
-            if [[ "$certificates" == *"$previous_signer"* ]]; then
-              echo "::error::El certificado de las versiones alfa contiene datos personales. Revisa la transición de firma antes de publicar."
-              exit 1
-            fi
+          set -euo pipefail
+          apk_tools=$(find "$ANDROID_HOME/build-tools" -name apksigner | sort -V | tail -1)
+          output_dir=app/build/outputs/apk/generic/release
+          mkdir -p "$RUNNER_TEMP/verified-apks"
+          for arch in arm64-v8a armeabi-v7a x86 x86_64 universal; do
+            apk="$output_dir/ClipBeak-${GITHUB_REF_NAME#v}-generic-$arch-release.apk"
+            certs=$("$apk_tools" verify --print-certs "$apk")
+            actual=$(sed -n 's/^Signer #[0-9]* certificate SHA-256 digest: //p' <<<"$certs")
+            test "$actual" = "$EXPECTED_SIGNER"
+            package=$("$(dirname "$apk_tools")/aapt2" dump packagename "$apk")
+            test "$package" = io.github.gabrieldave.clipbeak
+            cp -- "$apk" "$RUNNER_TEMP/verified-apks/"
           done
-
-      - name: Borrar la llave del runner
-        if: always() && env.HAS_KEYSTORE == 'true'
-        run: rm -f "$RUNNER_TEMP/clipbeak.jks" keystore.properties
 
       - name: Publicar release
         if: env.HAS_KEYSTORE == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          files: app/build/outputs/apk/generic/release/*.apk
+          files: |
+            ${{ runner.temp }}/verified-apks/*.apk
+            LICENSE
+            NOTICE.md
+          fail_on_unmatched_files: true
           generate_release_notes: true
           prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
           body: |
-            **ClipBeak** es un fork de [Seal](https://github.com/JunkFood02/Seal) de JunkFood02, con licencia GPLv3.
-            El código fuente de esta versión está en este repositorio, en la etiqueta `${{ github.ref_name }}`, y también en los archivos "Source code" de abajo.
-            [Fuentes de FFmpeg y aria2 y detalles de los paquetes Android](https://github.com/${{ github.repository }}/blob/${{ github.sha }}/NOTICE.md#fuentes-de-ffmpeg-y-aria2).
-            Para la mayoría de los teléfonos descarga el APK **arm64-v8a**.
+            ClipBeak is the new name of Nexo, gabrieldave's Android app based on Seal by JunkFood02 and contributors. Licensed under GPLv3.
+            [App source](https://github.com/${{ github.repository }}/tree/${{ github.sha }}) · [FFmpeg and aria2 source details](https://github.com/${{ github.repository }}/blob/${{ github.sha }}/NOTICE.md#fuentes-de-ffmpeg-y-aria2).
+            Choose arm64-v8a for most phones. This version installs alongside the Nexo alphas.

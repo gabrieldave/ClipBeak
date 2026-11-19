@@ -1,8 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.android.build.api.variant.FilterConfiguration
-import java.io.FileInputStream
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -14,7 +12,7 @@ plugins {
     alias(libs.plugins.ktfmt.gradle)
 }
 
-val keystorePropertiesFile: File = rootProject.file("keystore.properties")
+val clipBeakKeystore = providers.environmentVariable("CLIPBEAK_KEYSTORE_PATH")
 
 val splitApks = !project.hasProperty("noSplits")
 
@@ -28,23 +26,20 @@ val currentVersionCode = currentVersion.code.toInt()
 android {
     compileSdk = 35
 
-    if (keystorePropertiesFile.exists()) {
-        val keystoreProperties = Properties()
-        keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-        signingConfigs {
-            create("githubPublish") {
-                keyAlias = keystoreProperties["keyAlias"].toString()
-                keyPassword = keystoreProperties["keyPassword"].toString()
-                storeFile = file(keystoreProperties["storeFile"]!!)
-                storePassword = keystoreProperties["storePassword"].toString()
-            }
+    if (clipBeakKeystore.isPresent) {
+        signingConfigs.create("clipBeakRelease") {
+            storeFile = rootProject.file(clipBeakKeystore.get())
+            storeType = "PKCS12"
+            keyAlias = "clipbeak"
+            storePassword = providers.environmentVariable("CLIPBEAK_STORE_PASSWORD").get()
+            keyPassword = storePassword
         }
     }
 
     buildFeatures { buildConfig = true }
 
     defaultConfig {
-        applicationId = "io.github.gabrieldave.nexo"
+        applicationId = "io.github.gabrieldave.clipbeak"
         minSdk = 24
         targetSdk = 35
         // ClipBeak: la versión se define en un solo lugar (buildSrc/src/main/kotlin/Version.kt).
@@ -100,14 +95,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            if (keystorePropertiesFile.exists()) {
-                signingConfig = signingConfigs.getByName("githubPublish")
+            if (clipBeakKeystore.isPresent) {
+                signingConfig = signingConfigs.getByName("clipBeakRelease")
             }
         }
         debug {
-            if (keystorePropertiesFile.exists()) {
-                signingConfig = signingConfigs.getByName("githubPublish")
-            }
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
             resValue("string", "app_name", "ClipBeak Debug")

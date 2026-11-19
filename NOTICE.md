@@ -1,6 +1,6 @@
 # Aviso de obra modificada (NOTICE)
 
-**ClipBeak**, anteriormente Nexo, es una versión modificada de **Seal**.
+**Nexo** es el proyecto Android de **gabrieldave**, quien rediseñó la interfaz sobre la base de **Seal**. **ClipBeak** es el nuevo nombre de Nexo.
 
 - Proyecto original: Seal — https://github.com/JunkFood02/Seal
 - Copyright del original: (C) JunkFood02 y colaboradores
@@ -18,7 +18,7 @@ Los nombres internos del código (por ejemplo el paquete Kotlin `com.junkfood.se
 
 ## Identidad pública de ClipBeak (19 de noviembre de 2026)
 
-El nombre de la app pasa de Nexo a ClipBeak. Un pájaro con el símbolo de reproducción en el ala identifica la app, las notificaciones y la ficha de distribución. El identificador de Android se conserva para las actualizaciones. La pantalla de licencia incorpora la GPLv3 para su lectura sin conexión.
+El nombre de la app pasa de Nexo a ClipBeak. Un pájaro con el símbolo de reproducción en el ala identifica la app, las notificaciones y la ficha de distribución. Para las nuevas instalaciones, ClipBeak adopta el identificador Android `io.github.gabrieldave.clipbeak`, una firma propia y la carpeta `Download/ClipBeak`. Las versiones alfa de Nexo conservan su identidad anterior. La pantalla de licencia incorpora la GPLv3 para su lectura sin conexión.
 
 ## Modificaciones (18 de noviembre de 2026)
 
@@ -90,3 +90,7 @@ Las versiones 1.0.0-alpha.1 y 1.0.0-alpha.2 incorporan los módulos `ffmpeg` y `
 | aria2 1.37.0 | [Fuente de aria2 1.37.0](https://github.com/aria2/aria2/tree/release-1.37.0) | [Módulo Android](https://github.com/yausername/youtubedl-android/tree/900f27ae0aadc1ef56748e6b093c42ba756cbba4/aria2c) y [actualización de los binarios](https://github.com/yausername/youtubedl-android/pull/299). El programa declara GPL-2.0-or-later. [Receta y parches de Termux para la versión 1.37.0](https://github.com/termux/termux-packages/tree/559a6e84638a6dbb1883861e8f258cde165bfd4d/packages/aria2). |
 
 El integrador describe [cómo preparar paquetes Android](https://github.com/yausername/youtubedl-android/blob/900f27ae0aadc1ef56748e6b093c42ba756cbba4/README.md#docs). La revisión de estos dos paquetes sigue abierta respecto de las revisiones de sus dependencias, los parches y los scripts exactos empleados al producir los binarios publicados.
+
+Las [20 huellas SHA-256](docs/native-0.17.3.sha256) corresponden a los archivos del commit del integrador y a los dos APK universales. Para cotejar una copia, extrae su directorio `lib/` y ejecuta `sha256sum -c /ruta/a/native-0.17.3.sha256` desde la carpeta de extracción.
+
+FFmpeg identifica Android NDK 25.2.9519653 y un directorio de compilación llamado `build-ffmpeg`. La receta de Termux documenta una compilación de aria2 1.37.0. Para reproducir los binarios distribuidos faltan el commit del entorno de FFmpeg y sus códecs, las revisiones de los paquetes Termux y los pasos de empaquetado de ambas bibliotecas. Estas huellas sirven para identificar los binarios publicados. La procedencia completa de sus compilaciones sigue pendiente.

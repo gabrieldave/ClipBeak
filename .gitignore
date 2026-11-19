@@ -17,9 +17,11 @@
 local.properties
 /keystore.properties
 .kotlin
-# Nexo: llaves de firma (nunca subirlas)
+# Android signing keys
 *.jks
 *.keystore
+*.p12
+*.pfx
 keystore.properties
 /.idea/deploymentTargetSelector.xml
 *.b64

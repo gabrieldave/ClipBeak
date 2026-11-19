@@ -74,22 +74,29 @@ object UpdateUtil {
                 }
         }
 
-    private fun getLatestRelease(): Release =
-        client.newCall(requestForReleases).execute().body.use {
-            val releaseList = jsonFormat.decodeFromString<List<Release>>(it.string())
+    private fun Release.apkUrl(): String? {
+        val architectures = Build.SUPPORTED_ABIS.toList() + "universal"
+        val version = tagName?.removePrefix("v") ?: return null
+        return architectures.firstNotNullOfOrNull { arch ->
+            assets?.find { it.name == "ClipBeak-${version}-generic-${arch}-release.apk" }
+                ?.browserDownloadUrl
+        }
+    }
+
+    private fun getLatestRelease(): Release? =
+        client.newCall(requestForReleases).execute().use { response ->
+            check(response.isSuccessful) { "GitHub returned HTTP ${response.code}" }
+            val releases = jsonFormat.decodeFromString<List<Release>>(response.body.string())
             val stable = UPDATE_CHANNEL.getInt() == STABLE
-            val latestRelease =
-                releaseList
-                    .filter { if (stable) it.name.toVersion() is Version.Stable else true }
-                    .maxByOrNull { it.name.toVersion() } ?: throw Exception("null response")
-            latestRelease
+            releases
+                .filter { it.draft != true && it.apkUrl() != null }
+                .filter { !stable || (it.preRelease != true && it.tagName.toVersion() is Version.Stable) }
+                .maxByOrNull { it.tagName.toVersion() }
         }
 
     fun checkForUpdate(context: Context = App.context): Release? {
-        val currentVersion = context.getCurrentVersion()
-        val latestRelease = getLatestRelease()
-        val latestVersion = latestRelease.name.toVersion()
-        return if (currentVersion < latestVersion) latestRelease else null
+        val latestRelease = getLatestRelease() ?: return null
+        return latestRelease.takeIf { context.getCurrentVersion() < it.tagName.toVersion() }
     }
 
     private fun Context.getCurrentVersion(): Version =
@@ -152,21 +159,13 @@ object UpdateUtil {
 
             Log.d(TAG, apkVersion.toString())
 
-            if (apkVersion >= release.name.toVersion()) {
+            if (apkVersion >= release.tagName.toVersion()) {
                 return@withContext flow<DownloadStatus> {
                     emit(DownloadStatus.Finished(context.getLatestApk()))
                 }
             }
 
-            val abiList = Build.SUPPORTED_ABIS
-            val preferredArch = abiList.firstOrNull() ?: return@withContext emptyFlow()
-
-            val targetUrl =
-                release.assets
-                    ?.find {
-                        return@find it.name?.contains(preferredArch) ?: false
-                    }
-                    ?.browserDownloadUrl ?: return@withContext emptyFlow()
+            val targetUrl = release.apkUrl() ?: return@withContext emptyFlow()
             val request = Request.Builder().url(targetUrl).build()
             try {
                 val response = client.newCall(request).execute()

@@ -4,7 +4,8 @@
 
 ### En desarrollo
 
-- La aplicación adopta el nombre ClipBeak y el icono del pájaro naranja.
+- Nexo, proyecto de gabrieldave basado en Seal, adopta el nombre ClipBeak y el icono del pájaro naranja.
+- ClipBeak se instala junto a las versiones alfa de Nexo con un nuevo identificador Android y descarga por defecto en `Download/ClipBeak`.
 - La licencia GPLv3 se lee sin conexión desde Acerca de.
 
 ## Nexo
