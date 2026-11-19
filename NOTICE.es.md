@@ -30,7 +30,7 @@ El nombre de la app pasa de Nexo a ClipBeak. Un pájaro con el símbolo de repro
 - Versión propia: 1.0.0-alpha.1 (`buildSrc/src/main/kotlin/Version.kt`).
 - Nuevo icono de lanzador, icono monocromo e icono de notificación.
 - Carpeta de descargas por defecto: `Download/Nexo`.
-- El actualizador integrado consulta las releases de `gabrieldave/Nexo` (antes las de Seal).
+- El actualizador integrado consulta las releases de `gabrieldave/ClipBeak` (antes las de Seal).
 - Pantalla "Acerca de": enlaces al repositorio de Nexo; se agregaron "Basado en Seal", "Apoya el proyecto original" y "Licencia y aviso legal" (avisos legales apropiados según la sección 5(d) de la GPLv3). Se quitaron los enlaces a los canales de Telegram y Matrix de Seal.
 - Se quitó la tarjeta recurrente de patrocinio de la pantalla de Ajustes.
 - Repositorio: README nuevo, este NOTICE y la entrada en CHANGELOG. Se eliminaron el workflow de patrocinadores, `FUNDING.yml`, las traducciones del README de Seal, las capturas y los changelogs de F-Droid de Seal. Se actualizaron las plantillas de issues y los títulos de fastlane.
@@ -97,4 +97,4 @@ Las [20 huellas SHA-256](docs/native-0.17.3.sha256) corresponden a los archivos 
 
 FFmpeg identifica Android NDK 25.2.9519653 y un directorio de compilación llamado `build-ffmpeg`. La receta de Termux documenta una compilación de aria2 1.37.0. Para reproducir los binarios distribuidos faltan el commit del entorno de FFmpeg y sus códecs, las revisiones de los paquetes Termux y los pasos de empaquetado de ambas bibliotecas. Estas huellas sirven para identificar los binarios publicados. La procedencia completa de sus compilaciones sigue pendiente.
 
-[Seguimiento público de la auditoría](https://github.com/gabrieldave/Nexo/issues/1).
+[Seguimiento público de la auditoría](https://github.com/gabrieldave/ClipBeak/issues/1).

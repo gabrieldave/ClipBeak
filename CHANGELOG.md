@@ -2,10 +2,15 @@
 
 ## ClipBeak
 
-### 1.0.0-alpha.3 (in development)
+### 1.0.0-alpha.3 (November 19, 2026)
 
+- Only the best formats are offered: one audio and two videos (distinct resolutions when available).
+- The bottom bar and rail keep three destinations: Home, Downloads and Settings.
+- The home top bar shows the running version (for example `v1.0.0-alpha.3`).
+- Automatic updates are enabled by default and follow the pre-release channel of `gabrieldave/ClipBeak`.
+- On Android 13+ the notification permission is requested when the app opens.
 - Nexo, gabrieldave’s Android project based on Seal, adopts the ClipBeak name and orange bird icon.
-- New installations start in English. Spanish and the other existing translations remain available under Settings.
+- Follows the system language by default (English fallback) and lets you switch manually to English or another language in Settings.
 - ClipBeak installs alongside the Nexo alphas with its own Android application ID, signing configuration and `Download/ClipBeak` directory.
 - The full GPLv3 license is available offline in About.
 - The legacy signed Nexo APKs were withdrawn. Their source tags and license notices remain available.

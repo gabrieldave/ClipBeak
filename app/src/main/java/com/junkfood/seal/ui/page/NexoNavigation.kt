@@ -2,6 +2,7 @@
 
 package com.junkfood.seal.ui.page
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -12,11 +13,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Subscriptions
-import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Subscriptions
-import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -52,13 +52,6 @@ enum class TopDestination(
         R.string.downloads_history,
         Icons.Filled.Subscriptions,
         Icons.Outlined.Subscriptions,
-    ),
-    Commands(
-        Route.TASK_LIST,
-        Route.TASK_LIST,
-        R.string.nav_commands,
-        Icons.Filled.Terminal,
-        Icons.Outlined.Terminal,
     ),
     Settings(
         Route.SETTINGS,
@@ -105,11 +98,13 @@ fun NexoNavigationRail(
             // destinos.
             if (LocalConfiguration.current.screenHeightDp >= 480)
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Surface(shape = CircleShape, color = MaterialTheme.colorScheme.primary) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_launcher_monochrome),
+                    Surface(
+                        shape = CircleShape,
+                        color = colorResource(R.color.ic_launcher_background),
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_launcher_foreground),
                             contentDescription = stringResource(R.string.app_name),
-                            tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(44.dp),
                         )
                     }

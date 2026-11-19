@@ -58,12 +58,12 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.ToastUtil
 
 // Nexo: enlaces propios del fork. El proyecto original es Seal (JunkFood02, GPLv3).
-private const val releaseURL = "https://github.com/gabrieldave/Nexo/releases"
-private const val repoUrl = "https://github.com/gabrieldave/Nexo"
+private const val releaseURL = "https://github.com/gabrieldave/ClipBeak/releases"
+private const val repoUrl = "https://github.com/gabrieldave/ClipBeak"
 private const val upstreamRepoUrl = "https://github.com/JunkFood02/Seal"
 const val weblate = "https://hosted.weblate.org/engage/seal/"
 const val YtdlpRepository = "https://github.com/yt-dlp/yt-dlp"
-private const val githubIssueUrl = "https://github.com/gabrieldave/Nexo/issues"
+private const val githubIssueUrl = "https://github.com/gabrieldave/ClipBeak/issues"
 private const val githubSponsor = "https://github.com/sponsors/JunkFood02"
 private const val TAG = "AboutPage"
 
@@ -266,7 +266,7 @@ fun AutoUpdateUnavailableDialog(onDismissRequest: () -> Unit = {}) {
         val startIndex = text.indexOf(hyperLinkText)
         val endIndex = startIndex + hyperLinkText.length
         addUrlAnnotation(
-            UrlAnnotation("https://github.com/gabrieldave/Nexo/releases/latest"),
+            UrlAnnotation("https://github.com/gabrieldave/ClipBeak/releases/latest"),
             start = startIndex,
             end = endIndex,
         )

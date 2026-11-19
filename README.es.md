@@ -10,9 +10,9 @@
 **ClipBeak es el nuevo nombre de Nexo**, el proyecto Android creado y mantenido por **gabrieldave**. El rediseño de la interfaz, la navegación y la adaptación a plegables son aportaciones de gabrieldave a Nexo. La aplicación original, [Seal](https://github.com/JunkFood02/Seal), es obra de JunkFood02 y sus colaboradores. Motor de descarga: [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
 [![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-blue.svg)](LICENSE)
-[![Build](https://github.com/gabrieldave/Nexo/actions/workflows/build.yml/badge.svg)](https://github.com/gabrieldave/Nexo/actions/workflows/build.yml)
+[![Build](https://github.com/gabrieldave/ClipBeak/actions/workflows/build.yml/badge.svg)](https://github.com/gabrieldave/ClipBeak/actions/workflows/build.yml)
 
-<p>Capturas de la versión 1.0.0-alpha.2, publicada como Nexo.</p>
+<p>Capturas de ClipBeak 1.0.0-alpha.3.</p>
 
 <img src="docs/screenshots/inicio.png" width="30%" alt="Inicio" />
 <img src="docs/screenshots/ajustes.png" width="30%" alt="Ajustes" />
@@ -49,15 +49,15 @@ La lista completa de cambios respecto a Seal está en [NOTICE.es.md](NOTICE.es.m
 
 ## Instalar
 
-ClipBeak requiere Android 7.0 o superior. Al abrirla por primera vez aparece en inglés. Para elegir español entra en Settings → Look & feel → Language. Se instala junto a Nexo y Seal. Nexo conserva sus ajustes, historial y descargas. ClipBeak guarda las nuevas descargas en `Download/ClipBeak`.
+ClipBeak requiere Android 7.0 o superior y sigue el idioma del sistema por defecto (con inglés como respaldo). Puedes cambiar manualmente a inglés o a otro idioma en Settings → Look & feel → Language. Se instala junto a Nexo y Seal. Nexo conserva sus ajustes, historial y descargas. ClipBeak guarda las nuevas descargas en `Download/ClipBeak`.
 
 Las dos versiones alfa de Nexo conservan su código fuente y sus avisos de licencia en GitHub. Sus APK firmados se retiraron. La primera versión pública de ClipBeak sigue pendiente.
 
-**Para probar ClipBeak:** inicia sesión en GitHub, abre una [compilación correcta de la rama principal](https://github.com/gabrieldave/Nexo/actions/workflows/build.yml?query=branch%3Amain), baja a **Artifacts** y descarga `clipbeak-debug-apk`. Extrae el ZIP y abre el APK en tu Android de 64 bits ARM. Aparecerá como **ClipBeak Debug**. Tiene su propio identificador y se instala junto a la versión pública de Nexo. GitHub conserva cada archivo de prueba durante 14 días.
+**Para probar ClipBeak:** inicia sesión en GitHub, abre una [compilación correcta de la rama principal](https://github.com/gabrieldave/ClipBeak/actions/workflows/build.yml?query=branch%3Amain), baja a **Artifacts** y descarga `clipbeak-debug-apk`. Extrae el ZIP y abre el APK en tu Android de 64 bits ARM. Aparecerá como **ClipBeak Debug**. Tiene su propio identificador y se instala junto a la versión pública de Nexo. GitHub conserva cada archivo de prueba durante 14 días.
 
 **Cuando se publique la primera versión de ClipBeak:**
 
-1. Entra a [Releases](https://github.com/gabrieldave/Nexo/releases).
+1. Entra a [Releases](https://github.com/gabrieldave/ClipBeak/releases).
 2. Descarga el APK que corresponde a tu teléfono. Si no sabes cuál, usa **arm64-v8a**, que sirve para casi todos los teléfonos actuales. El APK **universal** funciona en todos, pero pesa más.
 3. Ábrelo en el teléfono y permite "Instalar apps desconocidas" para tu navegador o gestor de archivos cuando Android lo pida.
 4. Las actualizaciones llegan desde la propia app: Ajustes → Acerca de → Actualización automática.
@@ -74,7 +74,7 @@ Las dos versiones alfa de Nexo conservan su código fuente y sus avisos de licen
 
 ```bash
 # 1. Clonar
-git clone https://github.com/gabrieldave/Nexo.git
+git clone https://github.com/gabrieldave/ClipBeak.git
 cd Nexo
 
 # 2. Indicar dónde está el SDK (Android Studio lo hace solo al abrir el proyecto)

@@ -3,6 +3,7 @@
 package com.junkfood.seal.ui.page.downloadv2
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -52,12 +53,14 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.junkfood.seal.BuildConfig
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.FoldState
 import com.junkfood.seal.ui.common.LocalFoldState
@@ -167,11 +170,10 @@ fun NexoTopBar(modifier: Modifier = Modifier, trailing: @Composable () -> Unit =
         modifier = modifier.fillMaxWidth().height(64.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Surface(shape = CircleShape, color = MaterialTheme.colorScheme.primary) {
-            Icon(
-                painter = painterResource(R.drawable.ic_launcher_monochrome),
+        Surface(shape = CircleShape, color = colorResource(R.color.ic_launcher_background)) {
+            Image(
+                painter = painterResource(R.drawable.ic_launcher_foreground),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.size(40.dp),
             )
         }
@@ -181,8 +183,27 @@ fun NexoTopBar(modifier: Modifier = Modifier, trailing: @Composable () -> Unit =
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onSurface,
         )
+        Spacer(Modifier.width(8.dp))
+        VersionBadge()
         Spacer(Modifier.weight(1f))
         trailing()
+    }
+}
+
+/** Chip discreto con la versión en ejecución (p. ej. v1.0.0-alpha.3). */
+@Composable
+private fun VersionBadge(modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier,
+        shape = CircleShape,
+        color = MaterialTheme.colorScheme.secondaryContainer,
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+    ) {
+        Text(
+            text = "v${BuildConfig.VERSION_NAME}",
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+        )
     }
 }
 

@@ -24,6 +24,12 @@
 
 -dontobfuscate
 
+# ClipBeak: fuera los logs de depuración en Release (Log.d / Log.v quedan vacíos).
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+}
+
 -keep class com.yausername.** { *; }
 -keep class org.apache.commons.compress.archivers.zip.** { *; }
 

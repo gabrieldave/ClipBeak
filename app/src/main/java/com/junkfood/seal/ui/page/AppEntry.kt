@@ -104,8 +104,15 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
         }
     }
 
-    if (sheetState is DownloadDialogViewModel.SheetState.Configure) {
-        if (navController.currentDestination?.route != Route.HOME) {
+    // ClipBeak: solo volvemos al inicio cuando la hoja está realmente abierta en modo Configure.
+    // Así cerrar la hoja ya no secuestra la navegación desde Descargas o Ajustes.
+    val sheetValue by dialogViewModel.sheetValueFlow.collectAsStateWithLifecycle()
+    LaunchedEffect(sheetState, sheetValue) {
+        if (
+            sheetValue == DownloadDialogViewModel.SheetValue.Expanded &&
+                sheetState is DownloadDialogViewModel.SheetState.Configure &&
+                navController.currentDestination?.route != Route.HOME
+        ) {
             navController.popBackStack(route = Route.HOME, inclusive = false, saveState = true)
         }
     }

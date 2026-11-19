@@ -412,7 +412,7 @@
     <string name="every_month">Mensual</string>
     <string name="cookies_in_database">%1$d cookies de %2$d páginas web en total</string>
     <string name="proceed">Continuar</string>
-    <string name="preset">Programar</string>
+    <string name="preset">Perfil</string>
     <string name="custom_format_selection_desc">Elige entre formatos, subtítulos y personaliza aún más</string>
     <string name="edit_preset">Editar ajuste preestablecido</string>
     <plurals name="video_count">
@@ -455,7 +455,7 @@
     <string name="support_upstream_desc">Patrocina en GitHub al desarrollador de Seal</string>
     <string name="license_notice">Licencia y aviso legal</string>
     <string name="license_notice_desc">Licencia Pública General de GNU v3.0</string>
-    <string name="license_notice_text">ClipBeak\nRediseño de interfaz y modificaciones de esta versión: Copyright (C) 2026 gabrieldave\nBasado en Seal, Copyright (C) JunkFood02 y colaboradores.\n\nEste programa es software libre: puedes redistribuirlo y/o modificarlo bajo los términos de la Licencia Pública General de GNU versión 3, publicada por la Free Software Foundation.\n\nEste programa se distribuye con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA; ni siquiera la garantía implícita de COMERCIABILIDAD o IDONEIDAD PARA UN PROPÓSITO PARTICULAR. Consulta la Licencia Pública General de GNU para más detalles.\n\nCódigo fuente: github.com/gabrieldave/Nexo</string>
+    <string name="license_notice_text">ClipBeak\nRediseño de interfaz y modificaciones de esta versión: Copyright (C) 2026 gabrieldave\nBasado en Seal, Copyright (C) JunkFood02 y colaboradores.\n\nEste programa es software libre: puedes redistribuirlo y/o modificarlo bajo los términos de la Licencia Pública General de GNU versión 3, publicada por la Free Software Foundation.\n\nEste programa se distribuye con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA; ni siquiera la garantía implícita de COMERCIABILIDAD o IDONEIDAD PARA UN PROPÓSITO PARTICULAR. Consulta la Licencia Pública General de GNU para más detalles.\n\nCódigo fuente: github.com/gabrieldave/ClipBeak</string>
     <string name="license_read_full">Leer licencia</string>
     <string name="retry">Reintentar</string>
     <string name="nav_home">Inicio</string>

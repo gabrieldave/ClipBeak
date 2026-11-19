@@ -295,18 +295,22 @@ private fun FormatPageImpl(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     if (videoInfo.formats.isNullOrEmpty()) return
+    // Solo las mejores calidades: 1 audio y 2 vídeos (resoluciones distintas si existen).
     val videoOnlyFormats =
-        videoInfo.formats.filter { it.vcodec != "none" && it.acodec == "none" }.reversed()
+        videoInfo.formats
+            .filter { it.vcodec != "none" && it.acodec == "none" }
+            .bestVideoFormats()
     val audioOnlyFormats =
-        videoInfo.formats.filter { it.acodec != "none" && it.vcodec == "none" }.reversed()
+        videoInfo.formats
+            .filter { it.acodec != "none" && it.vcodec == "none" }
+            .sortedWith(compareByDescending<Format> { it.abr ?: it.tbr ?: 0.0 })
+            .take(1)
     val videoAudioFormats =
-        videoInfo.formats.filter { it.acodec != "none" && it.vcodec != "none" }.reversed()
+        videoInfo.formats
+            .filter { it.acodec != "none" && it.vcodec != "none" }
+            .bestVideoFormats()
 
     val duration = videoInfo.duration ?: 0.0
-
-    var videoOnlyItemLimit by remember { mutableIntStateOf(6) }
-    var audioOnlyItemLimit by remember { mutableIntStateOf(6) }
-    var videoAudioItemLimit by remember { mutableIntStateOf(6) }
 
     val isSuggestedFormatAvailable =
         !videoInfo.requestedFormats.isNullOrEmpty() || !videoInfo.requestedDownloads.isNullOrEmpty()
@@ -373,7 +377,7 @@ private fun FormatPageImpl(
                         }
                 } else {
                     selectedAudioOnlyFormats.forEach { index ->
-                        add(audioOnlyFormats.elementAt(index))
+                        audioOnlyFormats.getOrNull(index)?.let { add(it) }
                     }
                     videoAudioFormats.getOrNull(selectedVideoAudioFormat)?.let { add(it) }
                     videoOnlyFormats.getOrNull(selectedVideoOnlyFormat)?.let { add(it) }
@@ -619,23 +623,10 @@ private fun FormatPageImpl(
                             color = MaterialTheme.colorScheme.secondary,
                             modifier = Modifier.weight(1f).padding(vertical = 4.dp),
                         )
-
-                        ClickableTextAction(
-                            visible = audioOnlyItemLimit < audioOnlyFormats.size,
-                            text = stringResource(R.string.show_all_items, audioOnlyFormats.size),
-                        ) {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                            audioOnlyItemLimit = Int.MAX_VALUE
-                        }
                     }
                 }
 
-            itemsIndexed(
-                audioOnlyFormats.subList(
-                    fromIndex = 0,
-                    toIndex = min(audioOnlyItemLimit, audioOnlyFormats.size),
-                )
-            ) { index, formatInfo ->
+            itemsIndexed(audioOnlyFormats) { index, formatInfo ->
                 FormatItem(
                     formatInfo = formatInfo,
                     duration = duration,
@@ -668,20 +659,9 @@ private fun FormatPageImpl(
                                 color = MaterialTheme.colorScheme.tertiary,
                                 modifier = Modifier.weight(1f).padding(vertical = 4.dp),
                             )
-
-                            ClickableTextAction(
-                                visible = videoOnlyItemLimit < videoOnlyFormats.size,
-                                text =
-                                    stringResource(R.string.show_all_items, videoOnlyFormats.size),
-                            ) {
-                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                videoOnlyItemLimit = Int.MAX_VALUE
-                            }
                         }
                     }
-                itemsIndexed(
-                    videoOnlyFormats.subList(0, min(videoOnlyItemLimit, videoOnlyFormats.size))
-                ) { index, formatInfo ->
+                itemsIndexed(videoOnlyFormats) { index, formatInfo ->
                     FormatItem(
                         formatInfo = formatInfo,
                         duration = duration,
@@ -710,18 +690,9 @@ private fun FormatPageImpl(
                             text = stringResource(R.string.video),
                             modifier = Modifier.weight(1f).padding(vertical = 4.dp),
                         )
-                        ClickableTextAction(
-                            visible = videoAudioItemLimit < videoAudioFormats.size,
-                            text = stringResource(R.string.show_all_items, videoAudioFormats.size),
-                        ) {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                            videoAudioItemLimit = Int.MAX_VALUE
-                        }
                     }
                 }
-                itemsIndexed(
-                    videoAudioFormats.subList(0, min(videoAudioItemLimit, videoAudioFormats.size))
-                ) { index, formatInfo ->
+                itemsIndexed(videoAudioFormats) { index, formatInfo ->
                     FormatItem(
                         formatInfo = formatInfo,
                         duration = duration,
@@ -1086,4 +1057,19 @@ fun UpdateSubtitleLanguageDialog(
             }
         },
     )
+}
+
+/**
+ * Las mejores calidades de vídeo (por defecto 2): mayor altura y fps primero, y después el
+ * bitrate conocido. Si hay varias resoluciones, elige una de cada hasta llegar al límite.
+ */
+private fun List<Format>.bestVideoFormats(limit: Int = 2): List<Format> {
+    val sorted =
+        sortedWith(
+            compareByDescending<Format> { it.height ?: 0.0 }
+                .thenByDescending { it.fps ?: 0.0 }
+                .thenByDescending { it.vbr ?: it.tbr ?: 0.0 }
+        )
+    val distinctHeights = sorted.distinctBy { it.height ?: 0.0 }
+    return (distinctHeights + sorted).distinct().take(limit)
 }

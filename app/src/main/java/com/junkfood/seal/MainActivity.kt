@@ -1,6 +1,9 @@
 package com.junkfood.seal
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -29,6 +32,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
+
+        // ClipBeak: en Android 13+ pedimos las notificaciones al abrir la app (si falta el permiso)
+        // para que la descarga avise y siga en segundo plano aunque se cierre la interfaz.
+        if (
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) !=
+                    PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                REQUEST_NOTIFICATIONS,
+            )
+        }
 
         context = this.baseContext
         setContent {
@@ -86,6 +102,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+        private const val REQUEST_NOTIFICATIONS = 1001
         private var sharedUrlCached = ""
     }
 }

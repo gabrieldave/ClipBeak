@@ -1,9 +1,7 @@
 package com.junkfood.seal.util
 
-import android.app.LocaleManager
 import android.content.Context
 import android.os.Build
-import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -116,19 +114,11 @@ fun Locale?.toDisplayName(): String =
     this?.getDisplayName(this) ?: stringResource(id = R.string.follow_system)
 
 internal fun initializeAppLanguage(context: Context) {
+    // ClipBeak: de fábrica seguimos el idioma del sistema. Android usa inglés como fallback
+    // cuando el idioma del sistema no tiene traducción, así que no forzamos nada aquí.
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
         setLanguage(PreferenceUtil.getLocaleFromPreference())
-        return
     }
-
-    val preferences = context.getSharedPreferences("app_locale", Context.MODE_PRIVATE)
-    if (preferences.getBoolean("initialized", false)) return
-
-    val manager = context.getSystemService(LocaleManager::class.java)
-    if (manager.applicationLocales.isEmpty) {
-        manager.applicationLocales = LocaleList(Locale.US)
-    }
-    preferences.edit().putBoolean("initialized", true).apply()
 }
 
 fun setLanguage(locale: Locale?) {

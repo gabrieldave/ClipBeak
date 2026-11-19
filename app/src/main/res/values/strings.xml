@@ -460,7 +460,7 @@
     <string name="support_upstream_desc">Sponsor Seal\'s developer on GitHub</string>
     <string name="license_notice">License and legal notice</string>
     <string name="license_notice_desc">GNU General Public License v3.0</string>
-    <string name="license_notice_text">ClipBeak\nInterface redesign and fork modifications: Copyright (C) 2026 gabrieldave\nBased on Seal, Copyright (C) JunkFood02 and contributors.\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\nSource code: github.com/gabrieldave/Nexo</string>
+    <string name="license_notice_text">ClipBeak\nInterface redesign and fork modifications: Copyright (C) 2026 gabrieldave\nBased on Seal, Copyright (C) JunkFood02 and contributors.\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\nSource code: github.com/gabrieldave/ClipBeak</string>
     <string name="license_read_full">Read license</string>
     <string name="retry">Retry</string>
     <string name="nav_home">Home</string>

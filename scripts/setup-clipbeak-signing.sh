@@ -3,7 +3,7 @@ set -euo pipefail
 umask 077
 
 # Run on the maintainer's computer. The keystore stays in this private directory.
-repo=${CLIPBEAK_REPOSITORY:-gabrieldave/Nexo}
+repo=${CLIPBEAK_REPOSITORY:-gabrieldave/ClipBeak}
 folder=${XDG_CONFIG_HOME:-$HOME/.config}/clipbeak
 export CLIPBEAK_KEYSTORE_PATH="$folder/release.p12"
 scripts_dir=$(cd -- "$(dirname -- "$0")" && pwd)

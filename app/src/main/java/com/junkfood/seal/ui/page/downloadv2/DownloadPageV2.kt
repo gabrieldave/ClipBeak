@@ -273,7 +273,12 @@ fun DownloadPageV2(
         if (sheetValue == DownloadDialogViewModel.SheetValue.Expanded) {
             showDialog = true
         } else {
-            launch { sheetState.hide() }.invokeOnCompletion { showDialog = false }
+            // ClipBeak: pase lo que pase, el diálogo se cierra y no deja un scrim invisible.
+            try {
+                sheetState.hide()
+            } finally {
+                showDialog = false
+            }
         }
     }
 

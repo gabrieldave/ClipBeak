@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -179,14 +180,14 @@ private fun LanguagePageImpl(
 
                     item { PreferenceSubtitle(text = stringResource(id = R.string.suggested)) }
 
-                    if (!suggestedLocales.contains(Locale.getDefault())) {
-                        item {
-                            PreferenceSingleChoiceItem(
-                                text = stringResource(id = R.string.follow_system),
-                                selected = !suggestedLocales.contains(selectedLocale),
-                            ) {
-                                onLanguageSelected(null)
-                            }
+                    // ClipBeak: "Seguir sistema" siempre disponible para poder volver atrás
+                    // después de elegir un idioma a mano.
+                    item {
+                        PreferenceSingleChoiceItem(
+                            text = stringResource(id = R.string.follow_system),
+                            selected = AppCompatDelegate.getApplicationLocales().isEmpty,
+                        ) {
+                            onLanguageSelected(null)
                         }
                     }
 
