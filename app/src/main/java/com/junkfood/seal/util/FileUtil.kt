@@ -194,9 +194,11 @@ object FileUtil {
 
     fun Context.getInternalTempDir() = File(filesDir, "tmp")
 
-    internal fun getExternalDownloadDirectory() =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Nexo")
-            .also { it.mkdir() }
+    internal fun getExternalDownloadDirectory(): File {
+        val downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val previous = File(downloads, "Nexo")
+        return if (previous.isDirectory) previous else File(downloads, "ClipBeak").also { it.mkdir() }
+    }
 
     internal fun getExternalPrivateDownloadDirectory() =
         File(

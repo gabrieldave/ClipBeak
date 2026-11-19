@@ -1,20 +1,24 @@
 # Aviso de obra modificada (NOTICE)
 
-**Nexo** es una versión modificada de **Seal**.
+**ClipBeak**, anteriormente Nexo, es una versión modificada de **Seal**.
 
 - Proyecto original: Seal — https://github.com/JunkFood02/Seal
 - Copyright del original: (C) JunkFood02 y colaboradores
 - Versión de partida: commit `7677f61a20fda4210e84215fef9e9b51d25daa47` (25 de septiembre de 2026), versión 2.0.0-alpha.5
 - Copyright de las modificaciones: (C) 2026 gabrieldave
-- Licencia: GNU General Public License v3.0 o posterior (ver `LICENSE`). Todo el proyecto, incluidas las modificaciones, se distribuye bajo esta licencia.
+- Licencia: GNU General Public License v3.0 (GPL-3.0-only). Consulta [LICENSE](LICENSE). La licencia cubre la obra derivada. Los componentes de terceros conservan sus propios avisos.
 
 Este archivo existe para cumplir la sección 5(a) de la GPLv3, que pide avisos visibles de que la obra fue modificada y la fecha de los cambios.
 
 ## Nombre y marca
 
-El README de Seal prohíbe usar el nombre "Seal" en derivados como forks o builds no oficiales. Nexo cumple con esto: tiene nombre, icono e identificador de paquete propios, y no dice estar afiliado al proyecto Seal.
+El README de Seal prohíbe usar el nombre "Seal" en derivados como forks o builds no oficiales. ClipBeak tiene nombre, icono e identificador de paquete propios, y no dice estar afiliado al proyecto Seal.
 
 Los nombres internos del código (por ejemplo el paquete Kotlin `com.junkfood.seal`, `SealTheme` o el recurso `ic_stat_seal`) se conservan a propósito. No se muestran al usuario y facilitan incorporar futuras correcciones de Seal.
+
+## Identidad pública de ClipBeak (19 de noviembre de 2026)
+
+El nombre de la app pasa de Nexo a ClipBeak. Un pájaro con el símbolo de reproducción en el ala identifica la app, las notificaciones y la ficha de distribución. El identificador de Android se conserva para las actualizaciones. La pantalla de licencia incorpora la GPLv3 para su lectura sin conexión.
 
 ## Modificaciones (18 de noviembre de 2026)
 
@@ -74,4 +78,15 @@ Cada cambio en el código se puede rastrear en el historial de git de este repos
 
 ## Código fuente
 
-El código fuente completo de cada versión publicada de Nexo está en https://github.com/gabrieldave/Nexo. La GPLv3 (sección 6) exige ofrecer el código fuente correspondiente junto con cada APK distribuido.
+Cada publicación enlaza a la etiqueta del código fuente de la aplicación. El proyecto original y sus contribuciones conservan los avisos de autoría.
+
+## Fuentes de FFmpeg y aria2
+
+Las versiones 1.0.0-alpha.1 y 1.0.0-alpha.2 incorporan los módulos `ffmpeg` y `aria2c` de [youtubedl-android 0.17.3](https://github.com/yausername/youtubedl-android/tree/900f27ae0aadc1ef56748e6b093c42ba756cbba4). Los 20 archivos nativos de esos dos módulos coinciden byte por byte con los de los APK universales de ambas versiones.
+
+| Componente | Fuentes del programa | Integración Android distribuida |
+| --- | --- | --- |
+| FFmpeg 7.0.1 | [Fuente de FFmpeg n7.0.1](https://github.com/FFmpeg/FFmpeg/tree/n7.0.1) | [Módulo Android](https://github.com/yausername/youtubedl-android/tree/900f27ae0aadc1ef56748e6b093c42ba756cbba4/ffmpeg) y [actualización de los binarios](https://github.com/yausername/youtubedl-android/pull/283). La compilación incorpora las opciones `--enable-gpl` y `--enable-version3`. |
+| aria2 1.37.0 | [Fuente de aria2 1.37.0](https://github.com/aria2/aria2/tree/release-1.37.0) | [Módulo Android](https://github.com/yausername/youtubedl-android/tree/900f27ae0aadc1ef56748e6b093c42ba756cbba4/aria2c) y [actualización de los binarios](https://github.com/yausername/youtubedl-android/pull/299). |
+
+El integrador describe [cómo preparar paquetes Android](https://github.com/yausername/youtubedl-android/blob/900f27ae0aadc1ef56748e6b093c42ba756cbba4/README.md#docs). La revisión de estos dos paquetes sigue abierta respecto de las revisiones de sus dependencias, los parches y los scripts exactos empleados al producir los binarios publicados.

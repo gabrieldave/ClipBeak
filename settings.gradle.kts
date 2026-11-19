@@ -16,6 +16,6 @@ dependencyResolutionManagement {
         mavenLocal()
     }
 }
-rootProject.name = "Nexo"
+rootProject.name = "ClipBeak"
 include (":app")
 include(":color")

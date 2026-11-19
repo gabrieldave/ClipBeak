@@ -21,3 +21,8 @@ local.properties
 *.jks
 *.keystore
 keystore.properties
+/.idea/deploymentTargetSelector.xml
+*.b64
+.env
+.env.*
+!.env.example

@@ -1,16 +1,16 @@
-# Cómo contribuir a Nexo
+# Cómo contribuir a ClipBeak
 
-¡Gracias por querer ayudar! Nexo es un fork de [Seal](https://github.com/JunkFood02/Seal) y sigue su misma idea: una interfaz simple para [yt-dlp](https://github.com/yt-dlp/yt-dlp), sin modificar su funcionamiento.
+¡Gracias por querer ayudar! ClipBeak es un fork de [Seal](https://github.com/JunkFood02/Seal) y sigue su misma idea: una interfaz simple para [yt-dlp](https://github.com/yt-dlp/yt-dlp), sin modificar su funcionamiento.
 
 ## Antes de abrir un issue
 
 - Busca primero entre los issues existentes, también los cerrados.
 - Los errores de descarga ("HTTP Error 403", "Sign in to confirm you're not a bot", etc.) casi siempre vienen de yt-dlp o del sitio. Revisa los [issues de yt-dlp](https://github.com/yt-dlp/yt-dlp/issues) antes de reportarlos aquí.
-- Usa las plantillas de issue y describe cómo reproducir el problema: versión de Nexo, de Android y enlace de ejemplo.
+- Usa las plantillas de issue y describe cómo reproducir el problema: versión de ClipBeak, de Android y enlace de ejemplo.
 
 ## Peticiones de funciones
 
-Nexo no agrega funciones que yt-dlp no soporte. La mayoría de los casos avanzados se resuelven con **comandos personalizados** (Ajustes → Comando personalizado).
+ClipBeak no agrega funciones que yt-dlp no soporte. La mayoría de los casos avanzados se resuelven con **comandos personalizados** (Ajustes → Comando personalizado).
 
 ## Pull requests
 

@@ -80,7 +80,7 @@ fun CreditsPage(onNavigateBack: () -> Unit) {
             Credit("Read You", GPL_V3, readYou),
             Credit("youtubedl-android", GPL_V3, youtubedlAndroidUrl),
             Credit("Termux", GPL_V3, termux),
-            Credit("FFmpeg", GPL_V2, FFmpeg),
+            Credit("FFmpeg", "GNU General Public License v3.0 or later", FFmpeg),
             Credit("Android Jetpack", APACHE_V2, jetpack),
             Credit("Kotlin", APACHE_V2, kotlin),
             Credit("dvd", GPL_V3, dvd),

@@ -61,7 +61,6 @@ import com.junkfood.seal.util.ToastUtil
 private const val releaseURL = "https://github.com/gabrieldave/Nexo/releases"
 private const val repoUrl = "https://github.com/gabrieldave/Nexo"
 private const val upstreamRepoUrl = "https://github.com/JunkFood02/Seal"
-private const val licenseUrl = "https://www.gnu.org/licenses/gpl-3.0.html"
 const val weblate = "https://hosted.weblate.org/engage/seal/"
 const val YtdlpRepository = "https://github.com/yt-dlp/yt-dlp"
 private const val githubIssueUrl = "https://github.com/gabrieldave/Nexo/issues"
@@ -212,10 +211,7 @@ fun AboutPage(
         },
     )
     if (showLicenseDialog) {
-        LicenseNoticeDialog(
-            onOpenLicense = { openUrl(licenseUrl) },
-            onDismissRequest = { showLicenseDialog = false },
-        )
+        LicenseNoticeDialog(onDismissRequest = { showLicenseDialog = false })
     }
 }
 
@@ -224,14 +220,22 @@ fun AboutPage(
  * licencia.
  */
 @Composable
-fun LicenseNoticeDialog(onOpenLicense: () -> Unit = {}, onDismissRequest: () -> Unit = {}) {
+private fun LicenseNoticeDialog(onDismissRequest: () -> Unit) {
+    var showFullText by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
+    val assets = LocalContext.current.assets
+    val text =
+        if (showFullText) {
+            remember(assets) { assets.open("licenses/GPL-3.0.txt").bufferedReader().use { it.readText() } }
+        } else {
+            stringResource(R.string.license_notice_text)
+        }
     AlertDialog(
         onDismissRequest = onDismissRequest,
         icon = { Icon(Icons.Outlined.Gavel, null) },
         title = { Text(stringResource(R.string.license_notice), textAlign = TextAlign.Center) },
         text = {
             Text(
-                stringResource(R.string.license_notice_text),
+                text,
                 modifier = Modifier.verticalScroll(rememberScrollState()),
             )
         },
@@ -239,8 +243,10 @@ fun LicenseNoticeDialog(onOpenLicense: () -> Unit = {}, onDismissRequest: () -> 
             ConfirmButton(stringResource(id = R.string.got_it)) { onDismissRequest() }
         },
         dismissButton = {
-            androidx.compose.material3.TextButton(onClick = onOpenLicense) {
-                Text(stringResource(R.string.license_read_full))
+            if (!showFullText) {
+                androidx.compose.material3.TextButton(onClick = { showFullText = true }) {
+                    Text(stringResource(R.string.license_read_full))
+                }
             }
         },
     )

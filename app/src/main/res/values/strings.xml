@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name" translatable="false">Nexo</string>
-    <string name="brand_name" translatable="false">Nexo</string>
+    <string name="app_name" translatable="false">ClipBeak</string>
+    <string name="brand_name" translatable="false">ClipBeak</string>
     <string name="video_directory">Video folder</string>
     <string name="extract_audio">Save as audio</string>
     <string name="create_thumbnail">Save thumbnail</string>
@@ -136,7 +136,7 @@
     <string name="permission_issue_desc">Directories outside Download/ and Documents/ are not supported</string>
     <string name="battery_configuration">Battery configuration</string>
     <string name="battery_configuration_desc">Ignore battery optimization for this app to download in the background</string>
-    <string name="service_title">Nexo is downloading…</string>
+    <string name="service_title">ClipBeak is downloading…</string>
     <string name="unknown_error">Unknown error</string>
     <string name="translate">Translate</string>
     <string name="translate_desc">Help translate this app on Hosted Weblate</string>
@@ -235,7 +235,7 @@
     <string name="custom_command_enabled_hint">Some options are unavailable when using custom command</string>
     <string name="how_does_it_work">How does it work?</string>
     <string name="cookies_usage_msg">Downloading from some sites requires account authentication information. Click \"Generate new cookies\", enter the URL of the website and then log in with your account in the browser page, the app will generate it for you.</string>
-    <string name="custom_command_usage_msg">yt-dlp is a powerful command-line tool for downloading videos. Nexo makes it easier to use yt-dlp by providing an intuitive GUI, presets for common commands, and other additional features.\n\nFor advanced usage of yt-dlp, Nexo allows you to create, save and execute custom command templates directly, just like in a terminal.\n\nWhen using custom commands, most of the GUI options and features would be disabled.</string>
+    <string name="custom_command_usage_msg">yt-dlp is a powerful command-line tool for downloading videos. ClipBeak makes it easier to use yt-dlp by providing an intuitive GUI, presets for common commands, and other additional features.\n\nFor advanced usage of yt-dlp, ClipBeak allows you to create, save and execute custom command templates directly, just like in a terminal.\n\nWhen using custom commands, most of the GUI options and features would be disabled.</string>
     <string name="telegram_channel">Telegram channel</string>
     <string name="matrix_space">Matrix space</string>
     <string name="sdcard_directory">SD card folder</string>
@@ -302,7 +302,7 @@
     <string name="clip_video_desc">Make video clips in the format selection page</string>
     <string name="embed_thumbnail" translatable="false">Embed thumbnail</string>
     <string name="embed_thumbnail_desc" translatable="false">Embed thumbnails into videos</string>
-    <string name="auto_update_disabled_msg">Auto-update is not available for %1$s builds. If you don\'t have %1$s installed on your device, or would like to preview upcoming new features in Nexo, please consider %2$s.</string>
+    <string name="auto_update_disabled_msg">Auto-update is not available for %1$s builds. If you don\'t have %1$s installed on your device, or would like to preview upcoming new features in ClipBeak, please consider %2$s.</string>
     <string name="switch_to_github_builds">switching to GitHub builds</string>
     <string name="okay">Okay</string>
     <string name="got_it">Got it</string>
@@ -453,14 +453,14 @@
         <item quantity="one">%d audio</item>
         <item quantity="other">%d audios</item>
     </plurals>
-    <!-- Nexo (fork de Seal) -->
+    <!-- ClipBeak (fork de Seal) -->
     <string name="based_on_seal">Based on Seal</string>
-    <string name="based_on_seal_desc">Nexo is a fork of Seal by JunkFood02, licensed under GPLv3</string>
+    <string name="based_on_seal_desc">ClipBeak is a fork of Seal by JunkFood02, licensed under GPLv3</string>
     <string name="support_upstream">Support the original project</string>
     <string name="support_upstream_desc">Sponsor Seal\'s developer on GitHub</string>
     <string name="license_notice">License and legal notice</string>
     <string name="license_notice_desc">GNU General Public License v3.0</string>
-    <string name="license_notice_text">Nexo\nCopyright (C) 2026 gabrieldave\nBased on Seal, Copyright (C) JunkFood02 and contributors.\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\nSource code: github.com/gabrieldave/Nexo</string>
+    <string name="license_notice_text">ClipBeak\nInterface redesign and fork modifications: Copyright (C) 2026 gabrieldave\nBased on Seal, Copyright (C) JunkFood02 and contributors.\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\nSource code: github.com/gabrieldave/Nexo</string>
     <string name="license_read_full">Read license</string>
     <string name="retry">Retry</string>
     <string name="nav_home">Home</string>

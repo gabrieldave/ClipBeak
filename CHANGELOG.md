@@ -1,5 +1,12 @@
 # Changelog
 
+## ClipBeak
+
+### En desarrollo
+
+- La aplicación adopta el nombre ClipBeak y el icono del pájaro naranja.
+- La licencia GPLv3 se lee sin conexión desde Acerca de.
+
 ## Nexo
 
 ### [1.0.0-alpha.2] - 2026-11-18

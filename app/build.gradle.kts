@@ -47,7 +47,7 @@ android {
         applicationId = "io.github.gabrieldave.nexo"
         minSdk = 24
         targetSdk = 35
-        // Nexo: la versión se define en un solo lugar (buildSrc/src/main/kotlin/Version.kt).
+        // ClipBeak: la versión se define en un solo lugar (buildSrc/src/main/kotlin/Version.kt).
         versionCode = currentVersionCode
 
         versionName = baseVersionName
@@ -110,7 +110,7 @@ android {
             }
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
-            resValue("string", "app_name", "Nexo Debug")
+            resValue("string", "app_name", "ClipBeak Debug")
         }
     }
 
@@ -125,7 +125,7 @@ android {
         create("githubPreview") {
             dimension = "publishChannel"
             applicationIdSuffix = ".preview"
-            resValue("string", "app_name", "Nexo Preview")
+            resValue("string", "app_name", "ClipBeak Preview")
         }
 
         create("fdroid") {
@@ -139,7 +139,7 @@ android {
     applicationVariants.all {
         outputs.all {
             (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
-                "Nexo-${defaultConfig.versionName}-${name}.apk"
+                "ClipBeak-${defaultConfig.versionName}-${name}.apk"
         }
     }
 
@@ -159,7 +159,7 @@ ktfmt { kotlinLangStyle() }
 kotlin { jvmToolchain(21) }
 
 dependencies {
-    // Nexo: estado de bisagra y postura para teléfonos plegables.
+    // ClipBeak: estado de bisagra y postura para teléfonos plegables.
     implementation(libs.androidx.window)
     implementation(project(":color"))
 

@@ -1,14 +1,16 @@
 <div align="center">
 
-<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="Icono de Nexo" />
+<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="Icono de ClipBeak" />
 
-# Nexo
+# ClipBeak
 
 **Descargador de video y audio para Android, con interfaz Material 3 Expressive.**
 Basado en [Seal](https://github.com/JunkFood02/Seal) · Funciona con [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
 [![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-blue.svg)](LICENSE)
 [![Build](https://github.com/gabrieldave/Nexo/actions/workflows/build.yml/badge.svg)](https://github.com/gabrieldave/Nexo/actions/workflows/build.yml)
+
+<p>Capturas de la versión 1.0.0-alpha.2, publicada como Nexo.</p>
 
 <img src="docs/screenshots/inicio.png" width="30%" alt="Inicio" />
 <img src="docs/screenshots/ajustes.png" width="30%" alt="Ajustes" />
@@ -18,26 +20,26 @@ Basado en [Seal](https://github.com/JunkFood02/Seal) · Funciona con [yt-dlp](ht
 
 ## Índice
 
-1. [Qué es Nexo](#qué-es-nexo)
+1. [Qué es ClipBeak](#qué-es-clipbeak)
 2. [Instalar](#instalar)
 3. [Compilar desde el código fuente](#compilar-desde-el-código-fuente)
 4. [Firmar tus propias versiones](#firmar-tus-propias-versiones)
 5. [Publicar una release con GitHub Actions](#publicar-una-release-con-github-actions)
 6. [Contribuir](#contribuir)
-7. [Si haces tu propio fork de Nexo](#si-haces-tu-propio-fork-de-nexo)
+7. [Si haces tu propio fork de ClipBeak](#si-haces-tu-propio-fork-de-clipbeak)
 8. [Licencia y créditos](#licencia-y-créditos)
 
-## Qué es Nexo
+## Qué es ClipBeak
 
-Nexo es un fork de **Seal**, la app de JunkFood02 que ofrece una interfaz gráfica para yt-dlp. Conserva todas las funciones de Seal y cambia la experiencia:
+ClipBeak es un fork de **Seal**, la app de JunkFood02 que ofrece una interfaz gráfica para yt-dlp. Conserva todas las funciones de Seal y cambia la experiencia:
 
 - **Inicio nuevo:** pegas un enlace y descargas desde la primera pantalla.
 - **Material 3 Expressive:** movimiento con física de resorte, formas redondeadas, indicadores que cambian de forma y progreso ondulado.
 - **Navegación adaptable:** barra inferior en teléfonos y riel lateral en tablets, plegables abiertos y teléfonos en horizontal.
 - **Hecho para plegables:** dos paneles en pantallas anchas, nada queda partido por la bisagra y hay una distribución especial para la postura "mesa".
-- **Identidad propia:** paleta índigo, tipografía Outfit e icono propio. Se instala junto a Seal sin conflicto (`io.github.gabrieldave.nexo`).
+- **Identidad propia:** pájaro naranja con el símbolo de reproducción en el ala, tipografía Outfit y paleta índigo en la interfaz. Se instala junto a Seal sin conflicto (`io.github.gabrieldave.nexo`).
 
-<img src="docs/screenshots/plegables.png" width="70%" alt="Nexo en un plegable" />
+<img src="docs/screenshots/plegables.png" width="70%" alt="ClipBeak en un plegable" />
 
 Funciones heredadas de Seal: descarga de video y audio de los [sitios compatibles con yt-dlp](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md), metadatos y miniaturas en el audio, listas de reproducción completas, aria2c como descargador externo, subtítulos y comandos personalizados de yt-dlp con plantillas.
 
@@ -50,7 +52,7 @@ La lista completa de cambios respecto a Seal está en [NOTICE.md](NOTICE.md).
 3. Ábrelo en el teléfono y permite "Instalar apps desconocidas" para tu navegador o gestor de archivos cuando Android lo pida.
 4. Las actualizaciones llegan desde la propia app: Ajustes → Acerca de → Actualización automática.
 
-Nexo requiere Android 7.0 o superior.
+ClipBeak requiere Android 7.0 o superior.
 
 ## Compilar desde el código fuente
 
@@ -95,9 +97,11 @@ Android solo instala una actualización si viene firmada con **la misma llave** 
 Si ya tienes una llave (`.jks`) con sus contraseñas, puedes usarla y saltarte este paso.
 
 ```bash
-keytool -genkeypair -v -keystore nexo-release.jks -alias nexo \
+keytool -genkeypair -v -keystore clipbeak-release.jks -alias clipbeak \
   -keyalg RSA -keysize 4096 -validity 10000
 ```
+
+Al crear una llave nueva, elige un alias público para los campos del certificado. Android distribuye ese certificado dentro de cada APK. Conserva la llave original de una app ya publicada para sus actualizaciones.
 
 Guarda el archivo `.jks` y las contraseñas **fuera del repositorio**, con copia de respaldo. Si los pierdes, no podrás publicar actualizaciones de tu app.
 
@@ -106,9 +110,9 @@ Guarda el archivo `.jks` y las contraseñas **fuera del repositorio**, con copia
 Crea `keystore.properties` en la raíz del proyecto. Ya está en `.gitignore` y nunca se sube:
 
 ```properties
-storeFile=/ruta/completa/a/nexo-release.jks
+storeFile=/ruta/completa/a/clipbeak-release.jks
 storePassword=tu_contraseña_del_almacén
-keyAlias=nexo
+keyAlias=clipbeak
 keyPassword=tu_contraseña_de_la_llave
 ```
 
@@ -127,14 +131,14 @@ El repositorio trae dos workflows:
 
 Para activar las releases firmadas en tu repositorio:
 
-1. Convierte la llave a texto:
-   - Linux: `base64 -w0 nexo-release.jks > nexo-release.b64`
-   - macOS: `base64 -i nexo-release.jks -o nexo-release.b64`
-   - Windows (PowerShell): `[Convert]::ToBase64String([IO.File]::ReadAllBytes("nexo-release.jks")) > nexo-release.b64`
+1. Desde una carpeta privada fuera del repositorio, convierte la llave a texto:
+   - Linux: `base64 -w0 clipbeak-release.jks > clipbeak-release.b64`
+   - macOS: `base64 -i clipbeak-release.jks -o clipbeak-release.b64`
+   - Windows (PowerShell): `[Convert]::ToBase64String([IO.File]::ReadAllBytes("clipbeak-release.jks")) > clipbeak-release.b64`
 2. En GitHub, ve a **Settings → Secrets and variables → Actions → New repository secret** y crea:
-   - `KEYSTORE_BASE64`: el contenido de `nexo-release.b64`
+   - `KEYSTORE_BASE64`: el contenido de `clipbeak-release.b64`
    - `KEYSTORE_PASSWORD`, `KEY_ALIAS` y `KEY_PASSWORD`
-3. Borra `nexo-release.b64` de tu computadora.
+3. Borra `clipbeak-release.b64` de tu computadora.
 4. Sube la versión en `buildSrc/src/main/kotlin/Version.kt`, haz commit y crea la etiqueta con el mismo número:
 
 ```bash
@@ -152,15 +156,15 @@ La versión se define **solo** en `Version.kt`. El nombre, el `versionCode`, el 
 4. Comprueba que compila con `./gradlew assembleGenericDebug`.
 5. Abre un pull request con capturas de antes y después si cambias la interfaz.
 
-**Traducciones:** los textos están en `app/src/main/res/values-*/strings.xml`. Los textos nuevos de Nexo están al final de `values/strings.xml` (inglés) y `values-es/strings.xml` (español). Puedes traducirlos a otros idiomas con un pull request.
+**Traducciones:** los textos están en `app/src/main/res/values-*/strings.xml`. Los textos nuevos de ClipBeak están al final de `values/strings.xml` (inglés) y `values-es/strings.xml` (español). Puedes traducirlos a otros idiomas con un pull request.
 
 **Errores de descarga:** casi siempre vienen de yt-dlp o del sitio, no de la app. Revisa primero los [issues de yt-dlp](https://github.com/yt-dlp/yt-dlp/issues).
 
-## Si haces tu propio fork de Nexo
+## Si haces tu propio fork de ClipBeak
 
 Puedes hacerlo: es software libre. La GPLv3 te pide:
 
-- Mantener la licencia GPLv3 y los avisos de copyright de Seal y de Nexo.
+- Mantener la licencia GPLv3 y los avisos de copyright de Seal y de ClipBeak.
 - Indicar qué cambiaste y cuándo (por ejemplo, en un NOTICE.md como el de este repo).
 - Publicar el código fuente completo de cada APK que distribuyas.
 
@@ -171,22 +175,23 @@ Además te pedimos, para no confundir a los usuarios:
 
 ## Licencia y créditos
 
-Nexo es software libre bajo la **GNU General Public License v3.0** ([LICENSE](LICENSE)) y se distribuye **sin ninguna garantía**.
+ClipBeak es software libre bajo la **GNU General Public License v3.0** ([LICENSE](LICENSE)) y se distribuye **sin ninguna garantía**.
 
 > [!IMPORTANT]
-> Nexo no está afiliado a Seal ni a su autor, ni cuenta con su respaldo.
+> ClipBeak no está afiliado a Seal ni a su autor, ni cuenta con su respaldo.
 
-- **[Seal](https://github.com/JunkFood02/Seal)**, de JunkFood02 y sus colaboradores, la base de este proyecto. Si Nexo te resulta útil, considera [apoyar al desarrollador de Seal](https://github.com/sponsors/JunkFood02).
+- **[Seal](https://github.com/JunkFood02/Seal)**, de JunkFood02 y sus colaboradores, la base de este proyecto. Si ClipBeak te resulta útil, considera [apoyar al desarrollador de Seal](https://github.com/sponsors/JunkFood02).
+- [Fuentes de las versiones de FFmpeg y aria2 incluidas en Android](NOTICE.md#fuentes-de-ffmpeg-y-aria2).
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp), [youtubedl-android](https://github.com/yausername/youtubedl-android), [FFmpeg](https://ffmpeg.org), [aria2](https://github.com/aria2/aria2) y el resto de bibliotecas que aparecen en la pantalla de Créditos de la app.
 - Fuente [Outfit](https://github.com/Outfitio/Outfit-Fonts), con licencia SIL Open Font License 1.1 (`app/src/main/assets/licenses/OFL-Outfit.txt`).
 - Traducciones heredadas de la comunidad de Seal en [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
 
 ## Uso responsable
 
-Nexo es una herramienta. Respeta los derechos de autor y los términos de servicio de cada sitio. Descarga solo contenido que tengas derecho a guardar.
+ClipBeak es una herramienta. Respeta los derechos de autor y los términos de servicio de cada sitio. Descarga solo contenido que tengas derecho a guardar.
 
 ---
 
 ## English
 
-**Nexo** is a fork of [Seal](https://github.com/JunkFood02/Seal) by JunkFood02, redesigned with Material 3 Expressive and adaptive layouts for phones, tablets and foldables. It is licensed under the GNU GPL v3.0 and is not affiliated with or endorsed by the Seal project. Build with `./gradlew assembleGenericDebug` (JDK 17+, Android SDK 35). See [NOTICE.md](NOTICE.md) for the list of modifications.
+**ClipBeak** is a fork of [Seal](https://github.com/JunkFood02/Seal) by JunkFood02, redesigned with Material 3 Expressive and adaptive layouts for phones, tablets and foldables. It is licensed under the GNU GPL v3.0 and is not affiliated with or endorsed by the Seal project. Build with `./gradlew assembleGenericDebug` (JDK 17+, Android SDK 35). See [NOTICE.md](NOTICE.md) for the list of modifications.

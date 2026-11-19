@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Nexo: icono de notificación (se conserva el nombre del recurso para no tocar el código). -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24"
-    android:tint="#FFFFFF">
-    <path
-        android:pathData="M6.5,18 V6 L17.5,18 V6"
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="2.6"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round" />
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M4,18 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0 Z M15,6 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0 Z" />
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <group android:scaleX="1.15" android:scaleY="1.15" android:translateX="-3.5" android:translateY="-3.5">
+        <path android:fillColor="#FFFFFF" android:fillType="evenOdd" android:pathData="M12 68 Q23 72 35 64 Q22 61 19 55 Q24 58 30 56 Q15 50 12 41 Q18 46 23 46 Q10 36 12 26 Q18 34 26 38 Q13 25 14 15 Q19 22 32 31 Q19 17 21 8 Q22 5 25 10 C36 22 48 27 57 37 Q65 44 65 52 Q74 49 80 54 Q88 59 88 69 L83 78 Q74 83 65 79 Q58 85 50 83 Q43 87 36 84 L32 80 Q22 85 16 82 Q24 79 28 76 Q18 79 11 76 Q20 73 25 70 Q17 72 12 68 Z M39 34 Q39 32 41 33 L55 41 Q57 42.2 55 43.7 L41 52 Q39 53 39 50.5 Z M78 66 A2.7 2.7 0 1 0 83.4 66 A2.7 2.7 0 1 0 78 66 Z M87.5 68.8 L93 77 Q94 79 92 79 L82.6 76 Z" />
+    </group>
 </vector>

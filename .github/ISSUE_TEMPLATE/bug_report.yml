@@ -9,13 +9,13 @@ body:
     attributes:
       label: Checklist
       description: |
-        Carefully read and work through this check list in order to prevent the most common mistakes and misuse of Nexo/yt-dlp:
+        Carefully read and work through this check list in order to prevent the most common mistakes and misuse of ClipBeak/yt-dlp:
       options:
         - label: I'm reporting a bug unrelated to a specific site.
           required: false
         - label: I've verified that I'm running the [**latest version**](https://github.com/yt-dlp/yt-dlp/releases/latest) of yt-dlp.
           required: true
-        - label: I've verified that I'm running the latest [**stable version**](https://github.com/gabrieldave/Nexo/releases/latest/) of Nexo or any later [**preview versions**](https://github.com/gabrieldave/Nexo/releases).
+        - label: I've verified that I'm running the latest [**stable version**](https://github.com/gabrieldave/Nexo/releases/latest/) of ClipBeak or any later [**preview versions**](https://github.com/gabrieldave/Nexo/releases).
           required: true
         - label: I've read the [**Contributing guidelines**](https://github.com/gabrieldave/Nexo/blob/main/CONTRIBUTING.md) and [**Code Of Conduct.**](https://github.com/gabrieldave/Nexo/blob/main/CODE_OF_CONDUCT.md)
           required: true

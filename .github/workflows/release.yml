@@ -1,4 +1,4 @@
-# Nexo: publica una release firmada al subir una etiqueta "v*" (por ejemplo v1.0.0-alpha.1).
+# ClipBeak: publica una release firmada al subir una etiqueta "v*" (por ejemplo v1.0.0-alpha.1).
 #
 # Necesita estos secretos en Settings > Secrets and variables > Actions:
 #   KEYSTORE_BASE64     el archivo .jks codificado en base64
@@ -53,9 +53,10 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/nexo.jks"
+          umask 077
+          echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/clipbeak.jks"
           {
-            echo "storeFile=$RUNNER_TEMP/nexo.jks"
+            echo "storeFile=$RUNNER_TEMP/clipbeak.jks"
             echo "storePassword=$KEYSTORE_PASSWORD"
             echo "keyAlias=$KEY_ALIAS"
             echo "keyPassword=$KEY_PASSWORD"
@@ -72,12 +73,12 @@ jobs:
         run: |
           APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
           for apk in app/build/outputs/apk/generic/release/*.apk; do
-            "$APKSIGNER" verify --print-certs "$apk" | head -3
+            "$APKSIGNER" verify "$apk"
           done
 
       - name: Borrar la llave del runner
         if: always() && env.HAS_KEYSTORE == 'true'
-        run: rm -f "$RUNNER_TEMP/nexo.jks" keystore.properties
+        run: rm -f "$RUNNER_TEMP/clipbeak.jks" keystore.properties
 
       - name: Publicar release
         if: env.HAS_KEYSTORE == 'true'
@@ -87,6 +88,7 @@ jobs:
           generate_release_notes: true
           prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
           body: |
-            **Nexo** es un fork de [Seal](https://github.com/JunkFood02/Seal) de JunkFood02, con licencia GPLv3.
+            **ClipBeak** es un fork de [Seal](https://github.com/JunkFood02/Seal) de JunkFood02, con licencia GPLv3.
             El código fuente de esta versión está en este repositorio, en la etiqueta `${{ github.ref_name }}`, y también en los archivos "Source code" de abajo.
+            [Fuentes de FFmpeg y aria2 y detalles de los paquetes Android](https://github.com/${{ github.repository }}/blob/${{ github.sha }}/NOTICE.md#fuentes-de-ffmpeg-y-aria2).
             Para la mayoría de los teléfonos descarga el APK **arm64-v8a**.
