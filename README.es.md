@@ -9,8 +9,11 @@
 **Descargador de video y audio para Android, con interfaz Material 3 Expressive.**
 **ClipBeak es el nuevo nombre de Nexo**, el proyecto Android creado y mantenido por **gabrieldave**. El rediseño de la interfaz, la navegación y la adaptación a plegables son aportaciones de gabrieldave a Nexo. La aplicación original, [Seal](https://github.com/JunkFood02/Seal), es obra de JunkFood02 y sus colaboradores. Motor de descarga: [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
+[![Descargar APK de Android (última)](https://img.shields.io/badge/Descargar_APK_Android-%C3%BAltima-FF7624?logo=android&logoColor=white)](https://github.com/gabrieldave/ClipBeak/releases/latest)
 [![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-blue.svg)](LICENSE)
 [![Build](https://github.com/gabrieldave/ClipBeak/actions/workflows/build.yml/badge.svg)](https://github.com/gabrieldave/ClipBeak/actions/workflows/build.yml)
+
+**Usa el APK `arm64-v8a` para el 99% de los teléfonos. ¿Dudas? Descarga el APK `universal` desde [Releases](https://github.com/gabrieldave/ClipBeak/releases/latest).**
 
 <p>Capturas de ClipBeak 1.0.0-alpha.3.</p>
 

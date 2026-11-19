@@ -10,8 +10,11 @@
 
 ClipBeak is the new name of **Nexo**, an Android project created and maintained by **gabrieldave**. The interface redesign, navigation and foldable layouts are gabrieldave’s contributions to Nexo. The original app, [Seal](https://github.com/JunkFood02/Seal), was developed by JunkFood02 and the Seal contributors. Downloads are powered by [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
+[![Download Android APK (Latest)](https://img.shields.io/badge/Download_Android_APK-Latest-FF7624?logo=android&logoColor=white)](https://github.com/gabrieldave/ClipBeak/releases/latest)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Build](https://github.com/gabrieldave/ClipBeak/actions/workflows/build.yml/badge.svg)](https://github.com/gabrieldave/ClipBeak/actions/workflows/build.yml)
+
+**Use the `arm64-v8a` APK for 99% of phones. Not sure? Download the `universal` APK from [Releases](https://github.com/gabrieldave/ClipBeak/releases/latest).**
 
 <p>Screenshots from ClipBeak 1.0.0-alpha.3.</p>
 

@@ -78,6 +78,10 @@ jobs:
           draft: true
           prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
           body: |
+            **Download for Android (Recommended — most phones):** [ClipBeak-${{ github.ref_name }}-generic-arm64-v8a-release.apk](https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/ClipBeak-${{ github.ref_name }}-generic-arm64-v8a-release.apk)
+
+            **Not sure which one? Download Universal APK (works on any Android):** [ClipBeak-${{ github.ref_name }}-generic-universal-release.apk](https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/ClipBeak-${{ github.ref_name }}-generic-universal-release.apk)
+
             ClipBeak is the new name of Nexo, gabrieldave's Android app based on Seal by JunkFood02 and contributors. Licensed under GPLv3.
             [App source](https://github.com/${{ github.repository }}/tree/${{ github.sha }}) · [FFmpeg and aria2 source details](https://github.com/${{ github.repository }}/blob/${{ github.sha }}/NOTICE.md#ffmpeg-and-aria2-sources).
             Choose arm64-v8a for most phones. This version installs alongside the Nexo alphas.
