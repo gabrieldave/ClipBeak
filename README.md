@@ -129,6 +129,8 @@ El repositorio trae dos workflows:
 - **Build** (`.github/workflows/build.yml`): compila un APK de prueba en cada push y pull request. **Funciona en forks** porque no usa secretos.
 - **Release** (`.github/workflows/release.yml`): al subir una etiqueta `v*`, compila, firma y publica la release con los APKs. En un fork sin llave no falla: avisa y se detiene.
 
+El flujo verifica la firma sin imprimir los campos del certificado. Detiene la publicación si reconoce el certificado de las dos primeras versiones alfa, que contiene datos personales. Una transición de firma requiere comprobar la continuidad de las actualizaciones en las versiones de Android compatibles.
+
 Para activar las releases firmadas en tu repositorio:
 
 1. Desde una carpeta privada fuera del repositorio, convierte la llave a texto:

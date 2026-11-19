@@ -72,8 +72,14 @@ jobs:
         if: env.HAS_KEYSTORE == 'true'
         run: |
           APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
+          # Public SHA-256 of the alpha signer with personal information in its subject.
+          previous_signer=fdac2a6296e4b402e9b8443bdac8dde6690f1f27f8407f5f07b25d53481981d8
           for apk in app/build/outputs/apk/generic/release/*.apk; do
-            "$APKSIGNER" verify "$apk"
+            certificates=$("$APKSIGNER" verify --print-certs "$apk")
+            if [[ "$certificates" == *"$previous_signer"* ]]; then
+              echo "::error::El certificado de las versiones alfa contiene datos personales. Revisa la transición de firma antes de publicar."
+              exit 1
+            fi
           done
 
       - name: Borrar la llave del runner

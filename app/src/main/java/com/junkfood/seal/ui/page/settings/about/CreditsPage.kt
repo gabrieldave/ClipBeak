@@ -32,7 +32,7 @@ import com.junkfood.seal.ui.svg.drawablevectors.coder
 data class Credit(val title: String = "", val license: String? = null, val url: String = "")
 
 private const val GPL_V3 = "GNU General Public License v3.0"
-private const val GPL_V2 = "GNU General Public License v2.0"
+private const val GPL_V2_OR_LATER = "GNU General Public License v2.0 or later"
 private const val LGPL_V2_1 = "GNU Lesser General Public License, version 2.1"
 private const val APACHE_V2 = "Apache License, Version 2.0"
 private const val UNLICENSE = "The Unlicense"
@@ -91,7 +91,7 @@ fun CreditsPage(onNavigateBack: () -> Unit) {
             Credit("Material color utilities", APACHE_V2, materialColor),
             Credit("MMKV", BSD, mmkv),
             Credit("Coil", APACHE_V2, coil),
-            Credit("aria2", GPL_V2, aria2),
+            Credit("aria2", GPL_V2_OR_LATER, aria2),
             Credit("OkHttp", APACHE_V2, okhttp),
             Credit("material-motion-compose", APACHE_V2, materialMotionCompose),
             Credit("unDraw", null, unDraw),
