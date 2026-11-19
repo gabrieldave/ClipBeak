@@ -86,6 +86,8 @@ Cada publicación enlaza a la etiqueta del código fuente de la aplicación. El 
 
 Las versiones 1.0.0-alpha.1 y 1.0.0-alpha.2 incorporan los módulos `ffmpeg` y `aria2c` de [youtubedl-android 0.17.3](https://github.com/yausername/youtubedl-android/tree/900f27ae0aadc1ef56748e6b093c42ba756cbba4). Los 20 archivos nativos de esos dos módulos coinciden byte por byte con los de los APK universales de ambas versiones.
 
+Las copias espejo de esos archivos de código fuente, con sus checksums SHA-256, están publicadas en [native-sources-0.17.3](https://github.com/gabrieldave/ClipBeak/releases/tag/native-sources-0.17.3).
+
 | Componente | Fuentes del programa | Integración Android distribuida |
 | --- | --- | --- |
 | FFmpeg 7.0.1 | [Fuente de FFmpeg n7.0.1](https://github.com/FFmpeg/FFmpeg/tree/n7.0.1) | [Módulo Android](https://github.com/yausername/youtubedl-android/tree/900f27ae0aadc1ef56748e6b093c42ba756cbba4/ffmpeg) y [actualización de los binarios](https://github.com/yausername/youtubedl-android/pull/283). El binario declara GPL-3.0-or-later. Incorpora las opciones `--enable-gpl` y `--enable-version3`. |

@@ -34,6 +34,8 @@ The bundled Outfit font is by The Outfit Project Authors. Its [SIL Open Font Lic
 
 Nexo 1.0.0-alpha.1 and 1.0.0-alpha.2 shipped the `ffmpeg` and `aria2c` modules from [youtubedl-android 0.17.3](https://github.com/yausername/youtubedl-android/tree/900f27ae0aadc1ef56748e6b093c42ba756cbba4). All 20 native files in the two universal APKs match that commit byte for byte. The current app uses the same modules.
 
+A self-hosted mirror of these exact source archives, with their SHA-256 checksums, is published at [native-sources-0.17.3](https://github.com/gabrieldave/ClipBeak/releases/tag/native-sources-0.17.3).
+
 | Component | Source and Android build information |
 | --- | --- |
 | FFmpeg 7.0.1 | [Source tag n7.0.1](https://github.com/FFmpeg/FFmpeg/tree/n7.0.1), [Android module](https://github.com/yausername/youtubedl-android/tree/900f27ae0aadc1ef56748e6b093c42ba756cbba4/ffmpeg), [binary update](https://github.com/yausername/youtubedl-android/pull/283). The binary declares GPL-3.0-or-later and records `--enable-gpl --enable-version3`, Android NDK 25.2.9519653 and a build directory named `build-ffmpeg`. |
