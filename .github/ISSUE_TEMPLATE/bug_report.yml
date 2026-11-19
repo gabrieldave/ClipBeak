@@ -15,9 +15,9 @@ body:
           required: false
         - label: I've verified that I'm running the [**latest version**](https://github.com/yt-dlp/yt-dlp/releases/latest) of yt-dlp.
           required: true
-        - label: I've verified that I'm running the latest [**stable version**](https://github.com/gabrieldave/Nexo/releases/latest/) of ClipBeak or any later [**preview versions**](https://github.com/gabrieldave/Nexo/releases).
+        - label: I've verified that I'm running the latest [**stable version**](https://github.com/gabrieldave/ClipBeak/releases/latest/) of ClipBeak or any later [**preview versions**](https://github.com/gabrieldave/ClipBeak/releases).
           required: true
-        - label: I've read the [**Contributing guidelines**](https://github.com/gabrieldave/Nexo/blob/main/CONTRIBUTING.md) and [**Code Of Conduct.**](https://github.com/gabrieldave/Nexo/blob/main/CODE_OF_CONDUCT.md)
+        - label: I've read the [**Contributing guidelines**](https://github.com/gabrieldave/ClipBeak/blob/main/CONTRIBUTING.md) and [**Code Of Conduct.**](https://github.com/gabrieldave/ClipBeak/blob/main/CODE_OF_CONDUCT.md)
           required: true
         - label: I've checked that the site i'm trying to download from is in the [**Supported Sites**](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) list from yt-dlp
           required: true
