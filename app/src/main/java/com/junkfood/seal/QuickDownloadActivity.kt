@@ -5,9 +5,9 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -29,16 +29,13 @@ import com.junkfood.seal.ui.page.downloadv2.configure.FormatPage
 import com.junkfood.seal.ui.page.downloadv2.configure.PlaylistSelectionPage
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromSharedText
-import com.junkfood.seal.util.setLanguage
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 private const val TAG = "QuickDownloadActivity"
 
-class QuickDownloadActivity : ComponentActivity() {
+class QuickDownloadActivity : AppCompatActivity() {
     private var sharedUrlCached: String = ""
 
     private fun Intent.getSharedURL(): String? {
@@ -88,9 +85,6 @@ class QuickDownloadActivity : ComponentActivity() {
             }
         }
 
-        if (Build.VERSION.SDK_INT < 33) {
-            runBlocking { setLanguage(PreferenceUtil.getLocaleFromPreference()) }
-        }
 
         val viewModel: DownloadDialogViewModel = getViewModel()
         viewModel.postAction(Action.ShowSheet(listOf(sharedUrlCached)))

@@ -38,6 +38,7 @@ import com.junkfood.seal.util.SDCARD_URI
 import com.junkfood.seal.util.UpdateUtil
 import com.junkfood.seal.util.VIDEO_DIRECTORY
 import com.junkfood.seal.util.YT_DLP_VERSION
+import com.junkfood.seal.util.initializeAppLanguage
 import com.tencent.mmkv.MMKV
 import com.yausername.aria2c.Aria2c
 import com.yausername.ffmpeg.FFmpeg
@@ -58,6 +59,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         MMKV.initialize(this)
+        initializeAppLanguage(this)
 
         startKoin {
             androidLogger()

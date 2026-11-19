@@ -45,15 +45,17 @@ ClipBeak es un fork de **Seal**, la app de JunkFood02 que ofrece una interfaz gr
 
 Funciones heredadas de Seal: descarga de video y audio de los [sitios compatibles con yt-dlp](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md), metadatos y miniaturas en el audio, listas de reproducción completas, aria2c como descargador externo, subtítulos y comandos personalizados de yt-dlp con plantillas.
 
-La lista completa de cambios respecto a Seal está en [NOTICE.md](NOTICE.md).
+La lista completa de cambios respecto a Seal está en [NOTICE.es.md](NOTICE.es.md).
 
 ## Instalar
 
-ClipBeak requiere Android 7.0 o superior. Las versiones públicas 1.0.0-alpha.1 y 1.0.0-alpha.2 llevan el nombre **Nexo**. La primera versión pública de ClipBeak se instalará junto a Nexo y Seal. Nexo conserva sus ajustes, historial y descargas. ClipBeak guardará las nuevas descargas en `Download/ClipBeak`.
+ClipBeak requiere Android 7.0 o superior. Al abrirla por primera vez aparece en inglés. Para elegir español entra en Settings → Look & feel → Language. Se instala junto a Nexo y Seal. Nexo conserva sus ajustes, historial y descargas. ClipBeak guarda las nuevas descargas en `Download/ClipBeak`.
+
+Las dos versiones alfa de Nexo conservan su código fuente y sus avisos de licencia en GitHub. Sus APK firmados se retiraron. La primera versión pública de ClipBeak sigue pendiente.
 
 **Para probar ClipBeak:** inicia sesión en GitHub, abre una [compilación correcta de la rama principal](https://github.com/gabrieldave/Nexo/actions/workflows/build.yml?query=branch%3Amain), baja a **Artifacts** y descarga `clipbeak-debug-apk`. Extrae el ZIP y abre el APK en tu Android de 64 bits ARM. Aparecerá como **ClipBeak Debug**. Tiene su propio identificador y se instala junto a la versión pública de Nexo. GitHub conserva cada archivo de prueba durante 14 días.
 
-**Para instalar una versión pública:**
+**Cuando se publique la primera versión de ClipBeak:**
 
 1. Entra a [Releases](https://github.com/gabrieldave/Nexo/releases).
 2. Descarga el APK que corresponde a tu teléfono. Si no sabes cuál, usa **arm64-v8a**, que sirve para casi todos los teléfonos actuales. El APK **universal** funciona en todos, pero pesa más.
@@ -116,7 +118,7 @@ scripts/setup-clipbeak-signing.sh --github
 
 El script crea la llave o recupera la existente. Registra dos secretos de Actions, `CLIPBEAK_KEYSTORE_BASE64` y `CLIPBEAK_STORE_PASSWORD`, y la huella pública en `CLIPBEAK_CERT_SHA256`. Si mantienes otro fork, define `CLIPBEAK_REPOSITORY=usuario/repositorio` para elegir el destino.
 
-El [flujo Build](.github/workflows/build.yml) compila las ramas sin credenciales de publicación. Antes de publicar, revisa las [fuentes de los componentes nativos](NOTICE.md#fuentes-de-ffmpeg-y-aria2), actualiza [Version.kt](buildSrc/src/main/kotlin/Version.kt) y sube una etiqueta con esa versión precedida por `v`. El [flujo Release](.github/workflows/release.yml) verifica el paquete y la firma de los cinco APK antes de subirlos.
+El [flujo Build](.github/workflows/build.yml) compila las ramas sin credenciales de publicación. Antes de publicar, revisa las [fuentes de los componentes nativos](NOTICE.es.md#fuentes-de-ffmpeg-y-aria2), actualiza [Version.kt](buildSrc/src/main/kotlin/Version.kt) y sube una etiqueta con esa versión precedida por `v`. El [flujo Release](.github/workflows/release.yml) verifica el paquete y la firma de los cinco APK antes de subirlos a un borrador. Publica el borrador al terminar la revisión de las fuentes y de privacidad.
 
 ## Contribuir
 
@@ -151,7 +153,7 @@ ClipBeak es software libre bajo la **GNU General Public License v3.0** ([LICENSE
 > ClipBeak no está afiliado a Seal ni a su autor, ni cuenta con su respaldo.
 
 - **[Seal](https://github.com/JunkFood02/Seal)**, de JunkFood02 y sus colaboradores, la base de este proyecto. Si ClipBeak te resulta útil, considera [apoyar al desarrollador de Seal](https://github.com/sponsors/JunkFood02).
-- [Fuentes de las versiones de FFmpeg y aria2 incluidas en Android](NOTICE.md#fuentes-de-ffmpeg-y-aria2).
+- [Fuentes de las versiones de FFmpeg y aria2 incluidas en Android](NOTICE.es.md#fuentes-de-ffmpeg-y-aria2).
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp), [youtubedl-android](https://github.com/yausername/youtubedl-android), [FFmpeg](https://ffmpeg.org), [aria2](https://github.com/aria2/aria2) y el resto de bibliotecas que aparecen en la pantalla de Créditos de la app.
 - Fuente [Outfit](https://github.com/Outfitio/Outfit-Fonts), con licencia SIL Open Font License 1.1 (`app/src/main/assets/licenses/OFL-Outfit.txt`).
 - Traducciones heredadas de la comunidad de Seal en [Hosted Weblate](https://hosted.weblate.org/projects/seal/).

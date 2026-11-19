@@ -45,11 +45,13 @@ See [NOTICE.md](NOTICE.md) for the dated list of changes from Seal.
 
 ## Install
 
-ClipBeak requires Android 7.0 or later. Public releases 1.0.0-alpha.1 and 1.0.0-alpha.2 carry the previous name, **Nexo**. The first ClipBeak release will install alongside Nexo and Seal. Nexo retains its settings, history and existing downloads. New downloads default to `Download/ClipBeak`.
+ClipBeak requires Android 7.0 or later and starts in English. Choose another language under Settings → Look & feel → Language. ClipBeak installs alongside Nexo and Seal. Nexo retains its settings, history and downloads. New downloads default to `Download/ClipBeak`.
+
+The two Nexo alpha releases now provide historical source and license notices. Their signed APKs have been withdrawn. A public ClipBeak release is pending.
 
 **To try ClipBeak:** sign in to GitHub, open a [successful build on the main branch](https://github.com/gabrieldave/Nexo/actions/workflows/build.yml?query=branch%3Amain) and download `clipbeak-debug-apk` under **Artifacts**. Unzip it and open the APK on an ARM64 Android device. It appears as **ClipBeak Debug** and installs alongside the Nexo release under a separate application ID. Each build artifact is kept for 14 days.
 
-**To install a published release:**
+**When the first ClipBeak release is available:**
 
 1. Open [GitHub Releases](https://github.com/gabrieldave/Nexo/releases).
 2. Choose the APK for your device. Most recent Android phones use **arm64-v8a**. The larger **universal** APK includes every supported architecture.
@@ -96,7 +98,7 @@ scripts/setup-clipbeak-signing.sh --github
 
 The script creates or reuses the local key. It registers two Actions secrets, `CLIPBEAK_KEYSTORE_BASE64` and `CLIPBEAK_STORE_PASSWORD`, and the public certificate fingerprint in `CLIPBEAK_CERT_SHA256`. Fork maintainers must set `CLIPBEAK_REPOSITORY=owner/repo` to target their repository.
 
-The [Build workflow](.github/workflows/build.yml) tests branches without release credentials. For a public release, review the [native component source notes](NOTICE.md#fuentes-de-ffmpeg-y-aria2), update [Version.kt](buildSrc/src/main/kotlin/Version.kt) and push a matching version tag prefixed with `v`. The [Release workflow](.github/workflows/release.yml) checks the package and signature of all five APKs before uploading them.
+The [Build workflow](.github/workflows/build.yml) tests branches without release credentials. For a public release, review the [native component source notes](NOTICE.md#ffmpeg-and-aria2-sources), update [Version.kt](buildSrc/src/main/kotlin/Version.kt) and push a matching version tag prefixed with `v`. The [Release workflow](.github/workflows/release.yml) checks the package and signature of all five APKs before uploading them to a draft release. Publish the draft after the corresponding-source and privacy reviews pass.
 
 ## Contribute
 
@@ -115,7 +117,7 @@ Please choose a distinct name and icon, set your own application ID in [app/buil
 ClipBeak is free software under the [GNU General Public License v3.0](LICENSE), distributed without warranty. The full license is also available offline from Settings → About → License and legal notice. Third-party components retain their own notices.
 
 - **[Seal](https://github.com/JunkFood02/Seal)** by JunkFood02 and contributors is the original Android app. ClipBeak is an independent fork without affiliation or endorsement. [Support Seal’s original developer](https://github.com/sponsors/JunkFood02).
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp), [youtubedl-android](https://github.com/yausername/youtubedl-android), [FFmpeg](https://ffmpeg.org) and [aria2](https://github.com/aria2/aria2) provide downloading and media processing. See the [native component source notes](NOTICE.md#fuentes-de-ffmpeg-y-aria2) and the app’s Credits screen.
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp), [youtubedl-android](https://github.com/yausername/youtubedl-android), [FFmpeg](https://ffmpeg.org) and [aria2](https://github.com/aria2/aria2) provide downloading and media processing. See the [native component source notes](NOTICE.md#ffmpeg-and-aria2-sources) and the app’s Credits screen.
 - [Outfit](https://github.com/Outfitio/Outfit-Fonts) is bundled under the [SIL Open Font License 1.1](app/src/main/assets/licenses/OFL-Outfit.txt).
 - Community translations originated on [Seal’s Weblate project](https://hosted.weblate.org/projects/seal/).
 

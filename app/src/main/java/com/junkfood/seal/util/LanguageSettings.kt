@@ -1,5 +1,9 @@
 package com.junkfood.seal.util
 
+import android.app.LocaleManager
+import android.content.Context
+import android.os.Build
+import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -9,7 +13,7 @@ import java.util.Locale
 
 // Do not modify
 private const val SIMPLIFIED_CHINESE = 1
-private const val ENGLISH = 2
+internal const val ENGLISH = 2
 private const val CZECH = 3
 private const val FRENCH = 4
 private const val GERMAN = 5
@@ -110,6 +114,22 @@ val LocaleLanguageCodeMap =
 @Composable
 fun Locale?.toDisplayName(): String =
     this?.getDisplayName(this) ?: stringResource(id = R.string.follow_system)
+
+internal fun initializeAppLanguage(context: Context) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+        setLanguage(PreferenceUtil.getLocaleFromPreference())
+        return
+    }
+
+    val preferences = context.getSharedPreferences("app_locale", Context.MODE_PRIVATE)
+    if (preferences.getBoolean("initialized", false)) return
+
+    val manager = context.getSystemService(LocaleManager::class.java)
+    if (manager.applicationLocales.isEmpty) {
+        manager.applicationLocales = LocaleList(Locale.US)
+    }
+    preferences.edit().putBoolean("initialized", true).apply()
+}
 
 fun setLanguage(locale: Locale?) {
     val localeList =

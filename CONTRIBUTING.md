@@ -1,29 +1,19 @@
-# Cómo contribuir a ClipBeak
+# Contributing to ClipBeak
 
-¡Gracias por querer ayudar! ClipBeak es un fork de [Seal](https://github.com/JunkFood02/Seal) y sigue su misma idea: una interfaz simple para [yt-dlp](https://github.com/yt-dlp/yt-dlp), sin modificar su funcionamiento.
+ClipBeak is gabrieldave’s Android project, previously called Nexo, based on [Seal](https://github.com/JunkFood02/Seal). It provides an interface for [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
-## Antes de abrir un issue
+## Reports and feature requests
 
-- Busca primero entre los issues existentes, también los cerrados.
-- Los errores de descarga ("HTTP Error 403", "Sign in to confirm you're not a bot", etc.) casi siempre vienen de yt-dlp o del sitio. Revisa los [issues de yt-dlp](https://github.com/yt-dlp/yt-dlp/issues) antes de reportarlos aquí.
-- Usa las plantillas de issue y describe cómo reproducir el problema: versión de ClipBeak, de Android y enlace de ejemplo.
+Search open and closed issues first. For a site-specific download error, check [yt-dlp’s issue tracker](https://github.com/yt-dlp/yt-dlp/issues). In a ClipBeak report, include your app version, Android version, steps to reproduce and a public example link. Review logs and screenshots for cookies, account details, private URLs and device identifiers before sharing them.
 
-## Peticiones de funciones
-
-ClipBeak no agrega funciones que yt-dlp no soporte. La mayoría de los casos avanzados se resuelven con **comandos personalizados** (Ajustes → Comando personalizado).
+ClipBeak supports features available in yt-dlp. For advanced options, try Settings → Custom command.
 
 ## Pull requests
 
-1. Comenta en el issue relacionado (o abre uno) contando qué vas a cambiar, así nadie duplica el trabajo.
-2. Crea una rama desde `main`.
-3. Formatea con `./gradlew ktfmtFormat` y comprueba que compila con `./gradlew assembleGenericDebug`.
-4. Si cambias la interfaz, agrega capturas de antes y después.
-5. Si tu cambio modifica código que venía de Seal, regístralo en `NOTICE.md` (lo pide la GPLv3, sección 5a).
+1. Describe the change in an existing or new issue so others can coordinate.
+2. Create a branch from `main`.
+3. Run `./gradlew ktfmtFormat` and `./gradlew assembleGenericDebug`. See the [build instructions](README.md#build-from-source).
+4. Include screenshots for interface changes.
+5. Record and date modifications to inherited Seal code in [NOTICE.md](NOTICE.md).
 
-## Licencia de tus aportes
-
-Al enviar un pull request aceptas que tu aporte se publique bajo la **GNU General Public License v3.0**, la misma licencia del proyecto.
-
-## Compilar
-
-Ver la guía paso a paso en el [README](README.md#compilar-desde-el-código-fuente).
+Contributions are distributed under the project’s [GNU General Public License v3.0](LICENSE). Keep signing keys, passwords and local configuration outside the repository.

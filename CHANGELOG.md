@@ -2,39 +2,26 @@
 
 ## ClipBeak
 
-### En desarrollo
+### 1.0.0-alpha.3 (in development)
 
-- Nexo, proyecto de gabrieldave basado en Seal, adopta el nombre ClipBeak y el icono del pájaro naranja.
-- ClipBeak se instala junto a las versiones alfa de Nexo con un nuevo identificador Android y descarga por defecto en `Download/ClipBeak`.
-- La licencia GPLv3 se lee sin conexión desde Acerca de.
+- Nexo, gabrieldave’s Android project based on Seal, adopts the ClipBeak name and orange bird icon.
+- New installations start in English. Spanish and the other existing translations remain available under Settings.
+- ClipBeak installs alongside the Nexo alphas with its own Android application ID, signing configuration and `Download/ClipBeak` directory.
+- The full GPLv3 license is available offline in About.
+- The legacy signed Nexo APKs were withdrawn. Their source tags and license notices remain available.
 
 ## Nexo
 
-### [1.0.0-alpha.2] - 2026-11-18
-- La notificación al terminar una descarga reproduce el sonido del sistema (canal «Descargas terminadas»).
-- CI: `setup-android@v4` en los workflows Build y Release.
+### 1.0.0-alpha.2 (November 18, 2026)
 
-### [1.0.0-alpha.1] - 2026-11-18
-Primera versión de Nexo, un fork de Seal 2.0.0-alpha.5 (commit 7677f61).
+- Completed downloads play the system notification sound on their own channel.
+- Switched the Build and Release workflows to Android SDK setup v4.
 
-- Nueva identidad: nombre, icono, paquete `io.github.gabrieldave.nexo` y paleta índigo.
-- Interfaz Material 3 Expressive: movimiento con resortes, formas más redondeadas, indicador de carga que cambia de forma, progreso ondulado y botón de descarga más grande.
-- "Reintentar" ahora se traduce.
-- Avisos de licencia GPLv3 y créditos a Seal en la pantalla "Acerca de".
+### 1.0.0-alpha.1 (November 18, 2026)
 
-- Inicio nuevo con campo para pegar enlaces y descargar en un toque.
-- Navegación adaptable: barra inferior en teléfonos y riel lateral en pantallas anchas.
-- Soporte para plegables: dos paneles, respeto de la bisagra y postura mesa.
-- Color índigo de Nexo por defecto y tipografía Outfit en títulos.
+Initial version of Nexo, based on Seal 2.0.0-alpha.5 (commit 7677f61). gabrieldave introduced the Nexo brand, application ID and indigo palette, redesigned the home screen and settings, added adaptive navigation and foldable layouts, and set up release and debug builds in GitHub Actions. See [NOTICE.md](NOTICE.md) for the dated list of modifications.
 
-- Ajustes, Historial y Comandos con el mismo estilo del inicio.
-- Compilación automática en GitHub (también en forks) y releases firmadas al crear una etiqueta.
-
-Detalle completo: ver NOTICE.md.
-
----
-
-## Seal (historial del proyecto original)
+## Seal (upstream project history)
 
 All notable changes (starting from v1.7.3) to stable releases will be documented in this file.
 

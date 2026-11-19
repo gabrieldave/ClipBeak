@@ -226,7 +226,7 @@ private val IntPreferenceDefaults =
     mapOf(
         TEMPLATE_ID to 0,
         CONCURRENT to 8,
-        LANGUAGE to SYSTEM_DEFAULT,
+        LANGUAGE to ENGLISH,
         PALETTE_STYLE to NEXO_DEFAULT_PALETTE_STYLE,
         DARK_THEME_VALUE to DarkThemePreference.FOLLOW_SYSTEM,
         WELCOME_DIALOG to 1,
