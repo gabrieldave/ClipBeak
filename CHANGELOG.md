@@ -2,6 +2,10 @@
 
 ## Nexo
 
+### [1.0.0-alpha.2] - 2026-11-18
+- La notificación al terminar una descarga reproduce el sonido del sistema (canal «Descargas terminadas»).
+- CI: `setup-android@v4` en los workflows Build y Release.
+
 ### [1.0.0-alpha.1] - 2026-11-18
 Primera versión de Nexo, un fork de Seal 2.0.0-alpha.5 (commit 7677f61).
 

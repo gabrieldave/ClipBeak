@@ -64,6 +64,7 @@ Los nombres internos del código (por ejemplo el paquete Kotlin `com.junkfood.se
 
 ### Notificación al terminar descarga (18 de noviembre de 2026)
 - Canal nuevo `download_completed` con importancia por defecto y sonido del sistema; las notificaciones de progreso siguen en el canal silencioso. `NotificationUtil.finishNotification` y `finishNotificationForCustomCommands` usan ese canal.
+- Versión: `1.0.0-alpha.2`.
 
 ## Componentes de terceros agregados por Nexo
 
